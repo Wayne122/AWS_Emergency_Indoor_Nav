@@ -1,0 +1,218 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  my-sam-app-python
+
+  Sample SAM Template for my-sam-app-python
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  CreateUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: CreateUser.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        CreateUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /createUser
+            Method: post
+  GetUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: GetUser.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        GetUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getUser/{userId}
+            Method: get
+  CreateMapFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: CreateMap.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        CreateMap:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /createMap
+            Method: post
+  GetMapFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: GetMap.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        GetMap:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getMap/{mapId}
+            Method: get
+  CreateIotListFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: CreateIotList.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        CreateIotList:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /createIotList
+            Method: post
+  GetIotListFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: GetIotList.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        GetIotList:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getIotList/{iotId}
+            Method: get
+  CreateDeviceFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: CreateDevice.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        CreateDevice:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /createDevice
+            Method: post
+  GetDeviceFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: GetDevice.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        GetDevice:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getDevice/{deviceId}
+            Method: get
+  CreateNotificationFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: CreateNotification.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        CreateNotification:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /createNotification
+            Method: post
+  GetNotificationFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: GetNotification.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        GetNotification:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getNotification/{notificationId}
+            Method: get
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: UserInfo
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  MapTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MapInfo
+      AttributeDefinitions:
+        - AttributeName: mapId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: mapId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  IOTDeviceListTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: IotList
+      AttributeDefinitions:
+        - AttributeName: iotId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: iotId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  IOTDeviceTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: IotDeviceInfo
+      AttributeDefinitions:
+        - AttributeName: deviceId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: deviceId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  NotificationTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Notification
+      AttributeDefinitions:
+        - AttributeName: notificationId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: notificationId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
