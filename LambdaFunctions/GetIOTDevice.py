@@ -30,7 +30,7 @@ def lambda_handler(event, context):
 
         table = dynamodb.Table('IOTDevice')
 
-        mapId = event['pathParameters']
+        iotId = event['pathParameters']
 
         response = table.get_item(
             Key=iotId
