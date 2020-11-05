@@ -28,7 +28,7 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('MapInfo')
+        table = dynamodb.Table('Map')
 
         body = event['body']
 

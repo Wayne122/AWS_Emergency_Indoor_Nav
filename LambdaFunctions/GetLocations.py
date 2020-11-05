@@ -28,12 +28,12 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('Map')
+        table = dynamodb.Table('Locations')
 
         mapId = event['pathParameters']
 
         response = table.get_item(
-            Key=mapId
+            Key=locationsId
         )
 
         return {

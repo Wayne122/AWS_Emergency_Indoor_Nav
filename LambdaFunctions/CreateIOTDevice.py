@@ -28,12 +28,12 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('IotList')
+        table = dynamodb.Table('IOTDevice')
 
-        mapId = event['pathParameters']
+        body = event['body']
 
-        response = table.get_item(
-            Key=mapId
+        response = table.put_item(
+            Item=json.loads(body)
         )
 
         return {

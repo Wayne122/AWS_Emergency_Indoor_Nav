@@ -33,7 +33,7 @@ def lambda_handler(event, context):
         mapId = event['pathParameters']
 
         response = table.get_item(
-            Key=mapId
+            Key=notificationId
         )
 
         return {

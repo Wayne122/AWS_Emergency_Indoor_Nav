@@ -28,7 +28,7 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('IotDeviceInfo')
+        table = dynamodb.Table('MobileUser')
 
         body = event['body']
 
