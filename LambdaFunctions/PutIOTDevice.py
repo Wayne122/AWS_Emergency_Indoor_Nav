@@ -28,35 +28,35 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('Directions')
+        table = dynamodb.Table('IOTDevice')
 
         body = event['body']
 
         entity = json.loads(body)
 
-        id = entity['directionsId']
+        id = entity['iotId']
 
         response = table.get_item(
-            Key={'directionsId': id}
+            Key={'iotId': id}
         )
 
-        if "Item" not in response:
+        if "Item" in response:
             response = table.put_item(
                 Item=entity
             )
 
             return {
-                "statusCode": 201,
+                "statusCode": 200,
                 "body": json.dumps({
                     #"response": response,
-                    "response": "Created!"
+                    "response": "Replaced!"
                 }),
             }
         else:
             return {
-                "statusCode": 409,
+                "statusCode": 404,
                 "body": json.dumps({
-                    "response": "Id already existed!"
+                    "response": "Record not found!"
                 })
             }
     except:

@@ -42,7 +42,7 @@ def lambda_handler(event, context):
 
         if "Item" not in response:
             response = table.put_item(
-                Item=json.loads(body)
+                Item=entity
             )
 
             return {

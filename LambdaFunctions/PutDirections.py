@@ -40,23 +40,23 @@ def lambda_handler(event, context):
             Key={'directionsId': id}
         )
 
-        if "Item" not in response:
+        if "Item" in response:
             response = table.put_item(
                 Item=entity
             )
 
             return {
-                "statusCode": 201,
+                "statusCode": 200,
                 "body": json.dumps({
                     #"response": response,
-                    "response": "Created!"
+                    "response": "Replaced!"
                 }),
             }
         else:
             return {
-                "statusCode": 409,
+                "statusCode": 404,
                 "body": json.dumps({
-                    "response": "Id already existed!"
+                    "response": "Record not found!"
                 })
             }
     except:
