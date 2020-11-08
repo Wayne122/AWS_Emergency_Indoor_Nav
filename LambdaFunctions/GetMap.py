@@ -36,12 +36,20 @@ def lambda_handler(event, context):
             Key=mapId
         )
 
-        return {
-            "statusCode": 200,
-            "body": json.dumps({
-                "response": response,
-            }),
-        }
+        if "Item" in response:
+            return {
+                "statusCode": 200,
+                "body": json.dumps({
+                    "response": response["Item"],
+                }),
+            }
+        else:
+            return {
+                "statusCode": 404,
+                "body": json.dumps({
+                    "response": "Record not found!"
+                })
+            }
     except:
         return {
             "statusCode": 400,

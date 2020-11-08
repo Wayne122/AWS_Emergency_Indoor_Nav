@@ -11,19 +11,19 @@ Globals:
     Timeout: 3
 
 Resources:
-  CreateMobileUserFunction:
+  PostMobileUserFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateMobileUser.lambda_handler
+      Handler: PostMobileUser.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateMobileUser:
+        PostMobileUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createMobileUser
+            Path: /MobileUser
             Method: post
   GetMobileUserFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -37,22 +37,22 @@ Resources:
         GetMobileUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getMobileUser/{userId}
+            Path: /MobileUser/{userId}
             Method: get
 
-  CreateAdminFunction:
+  PostAdminFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateAdmin.lambda_handler
+      Handler: PostAdmin.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateAdmin:
+        PostAdmin:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createAdmin
+            Path: /Admin
             Method: post
   GetAdminFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -66,22 +66,22 @@ Resources:
         GetAdmin:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getAdmin/{userId}
+            Path: /Admin/{userId}
             Method: get
 
-  CreateMapFunction:
+  PostMapFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateMap.lambda_handler
+      Handler: PostMap.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateMap:
+        PostMap:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createMap
+            Path: /Map
             Method: post
   GetMapFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -95,22 +95,22 @@ Resources:
         GetMap:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getMap/{mapId}
+            Path: /Map/{mapId}
             Method: get
 
-  CreateEdgeFunction:
+  PostEdgeFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateEdge.lambda_handler
+      Handler: PostEdge.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateEdge:
+        PostEdge:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createEdge
+            Path: /Edge
             Method: post
   GetEdgeFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -124,22 +124,22 @@ Resources:
         GetEdge:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getEdge/{edgeId}
+            Path: /Edge/{edgeId}
             Method: get
 
-  CreateIOTDeviceFunction:
+  PostIOTDeviceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateIOTDevice.lambda_handler
+      Handler: PostIOTDevice.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateIOTDevice:
+        PostIOTDevice:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createIOTDevice
+            Path: /IOTDevice
             Method: post
   GetIOTDeviceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -153,22 +153,22 @@ Resources:
         GetIOTDevice:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getIOTDevice/{iotId}
+            Path: /IOTDevice/{iotId}
             Method: get
 
-  CreateLocationsFunction:
+  PostLocationsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateLocations.lambda_handler
+      Handler: PostLocations.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateLocations:
+        PostLocations:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createLocations
+            Path: /Locations
             Method: post
   GetLocationsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -182,22 +182,22 @@ Resources:
         GetLocations:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getLocations/{locationsId}
+            Path: /Locations/{locationsId}
             Method: get
 
-  CreateTriggerFunction:
+  PostTriggerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateTrigger.lambda_handler
+      Handler: PostTrigger.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateTrigger:
+        PostTrigger:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createTrigger
+            Path: /Trigger
             Method: post
   GetTriggerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -211,22 +211,22 @@ Resources:
         GetTrigger:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getTrigger/{triggerId}
+            Path: /Trigger/{triggerId}
             Method: get
 
-  CreateDirectionsFunction:
+  PostDirectionsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateDirections.lambda_handler
+      Handler: PostDirections.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateDirections:
+        PostDirections:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createDirections
+            Path: /Directions
             Method: post
   GetDirectionsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -240,22 +240,22 @@ Resources:
         GetDirections:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getDirections/{directionsId}
+            Path: /Directions/{directionsId}
             Method: get
 
-  CreateNotificationFunction:
+  PostNotificationFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: CreateNotification.lambda_handler
+      Handler: PostNotification.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
       Events:
-        CreateNotification:
+        PostNotification:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /createNotification
+            Path: /Notification
             Method: post
   GetNotificationFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -269,7 +269,7 @@ Resources:
         GetNotification:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getNotification/{notificationId}
+            Path: /Notification/{notificationId}
             Method: get
 
 
