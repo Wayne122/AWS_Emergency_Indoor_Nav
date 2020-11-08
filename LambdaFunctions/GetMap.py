@@ -30,10 +30,10 @@ def lambda_handler(event, context):
 
         table = dynamodb.Table('Map')
 
-        mapId = event['pathParameters']
+        id = event['pathParameters']
 
         response = table.get_item(
-            Key=mapId
+            Key=id
         )
 
         if "Item" in response:

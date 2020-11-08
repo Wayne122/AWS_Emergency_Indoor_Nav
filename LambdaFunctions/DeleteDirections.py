@@ -28,7 +28,7 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('Locations')
+        table = dynamodb.Table('Directions')
 
         id = event['pathParameters']
 
@@ -37,10 +37,15 @@ def lambda_handler(event, context):
         )
 
         if "Item" in response:
+            response = table.delete_item(
+                Key=id
+            )
+
             return {
                 "statusCode": 200,
                 "body": json.dumps({
-                    "response": response["Item"],
+                    #"response": response,
+                    "response": "Deleted!"
                 }),
             }
         else:
@@ -54,6 +59,7 @@ def lambda_handler(event, context):
         return {
             "statusCode": 400,
             "body": json.dumps({
+                #"response": event,
                 "response": "Error(s) occurred.",
             }),
         }

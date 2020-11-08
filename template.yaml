@@ -39,6 +39,20 @@ Resources:
           Properties:
             Path: /MobileUser/{userId}
             Method: get
+  DeleteMobileUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteMobileUser.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteMobileUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /MobileUser/{userId}
+            Method: delete
 
   PostAdminFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -68,6 +82,20 @@ Resources:
           Properties:
             Path: /Admin/{userId}
             Method: get
+  DeleteAdminFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteAdmin.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteAdmin:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /Admin/{userId}
+            Method: delete
 
   PostMapFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -97,6 +125,20 @@ Resources:
           Properties:
             Path: /Map/{mapId}
             Method: get
+  DeleteMapFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteMap.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteMap:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /Map/{mapId}
+            Method: delete
 
   PostEdgeFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -126,6 +168,20 @@ Resources:
           Properties:
             Path: /Edge/{edgeId}
             Method: get
+  DeleteEdgeFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteEdge.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteEdge:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /Edge/{edgeId}
+            Method: delete
 
   PostIOTDeviceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -155,6 +211,20 @@ Resources:
           Properties:
             Path: /IOTDevice/{iotId}
             Method: get
+  DeleteIOTDeviceFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteIOTDevice.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteIOTDevice:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /IOTDevice/{iotId}
+            Method: delete
 
   PostLocationsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -184,6 +254,20 @@ Resources:
           Properties:
             Path: /Locations/{locationsId}
             Method: get
+  DeleteLocationsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteLocations.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteLocations:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /Locations/{locationsId}
+            Method: delete
 
   PostTriggerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -213,6 +297,20 @@ Resources:
           Properties:
             Path: /Trigger/{triggerId}
             Method: get
+  DeleteTriggerFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteTrigger.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteTrigger:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /Trigger/{triggerId}
+            Method: delete
 
   PostDirectionsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -242,6 +340,20 @@ Resources:
           Properties:
             Path: /Directions/{directionsId}
             Method: get
+  DeleteDirectionsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteDirections.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteDirections:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /Directions/{directionsId}
+            Method: delete
 
   PostNotificationFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -271,6 +383,20 @@ Resources:
           Properties:
             Path: /Notification/{notificationId}
             Method: get
+  DeleteNotificationFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeleteNotification.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteNotification:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /Notification/{notificationId}
+            Method: delete
 
 
   MobileUserTable:
