@@ -651,6 +651,39 @@ Resources:
             Method: delete
 
 
+  # Functions for ML
+  SendUserLocationFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: SendUserLocation.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        SendUserLocation:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /SendUserLocation/{userId}
+            Method: get
+
+  SendNotificationFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: SendNotification.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        SendNotification:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /SendNotification
+            Method: post
+
+
+  # DynamoDB Tables
   MobileUserTable:
     Type: AWS::DynamoDB::Table
     Properties:
