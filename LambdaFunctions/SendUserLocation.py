@@ -48,10 +48,10 @@ def lambda_handler(event, context):
             }
         else:
             return {
-                "statusCode": 400,
+                "statusCode": 404,
                 "body": json.dumps({
                     #"response": response,
-                    "response": "Error(s) occurred."
+                    "response": "User not found!"
                 })
             }
     except:
