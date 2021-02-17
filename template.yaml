@@ -674,7 +674,7 @@ Resources:
       Handler: SendNotification.lambda_handler
       Runtime: python3.7
       Policies:
-        - AmazonDynamoDBFullAccess
+        - AmazonSNSFullAccess
       Events:
         SendNotification:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

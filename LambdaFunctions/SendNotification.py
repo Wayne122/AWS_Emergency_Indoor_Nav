@@ -29,8 +29,8 @@ def lambda_handler(event, context):
         msg = json.loads(event['body'])
         client = boto3.client('sns')
         response = client.publish(
-            TargetArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
-            Message=msg['Message'],
+            TargetArn=msg['TargetArn'],
+            Message=json.dumps(msg['Message']),
             MessageStructure=msg['MessageStructure'],
             MessageAttributes=msg['MessageAttributes']
         )
@@ -47,15 +47,15 @@ def lambda_handler(event, context):
             return {
                 "statusCode": 400,
                 "body": json.dumps({
-                    #"response": response,
-                    "response": "Error(s) occurred."
+                    "response": "Error(s) occurred.",
+                    "detail": response
                 })
             }
     except:
         return {
             "statusCode": 400,
             "body": json.dumps({
-                #"response": event,
                 "response": "Error(s) occurred.",
-            }),
+                "detail": event
+            })
         }
