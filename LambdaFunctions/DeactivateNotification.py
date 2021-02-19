@@ -26,29 +26,38 @@ def lambda_handler(event, context):
     """
 
     try:
-        msg = json.loads(event['body'])
-        client = boto3.client('sns')
-        response = client.publish(
-            TargetArn=msg['TargetArn'],
-            Message=json.dumps(msg['Message']),
-            MessageStructure=msg['MessageStructure'],
-            MessageAttributes=msg['MessageAttributes']
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('MobileUser')
+
+        id = event['pathParameters']
+
+        response = table.get_item(
+            Key=id
         )
 
-        if "MessageId" in response:
+        if "Item" in response:
+            userInfo = response["Item"]
+            client = boto3.client('sns')
+
+            client.unsubscribe(
+                SubscriptionArn=userInfo['SubscriptionArn']
+            )
+
+            client.delete_endpoint(
+                EndpointArn=userInfo['EndpointArn']
+            )
+
             return {
                 "statusCode": 200,
                 "body": json.dumps({
-                    #"response": response,
-                    "response": "Sent!"
-                }),
+                    "response": "Deactivated!",
+                })
             }
         else:
             return {
-                "statusCode": 400,
+                "statusCode": 404,
                 "body": json.dumps({
-                    "response": "Error(s) occurred.",
-                    #"detail": response
+                    "response": "User not found!"
                 })
             }
     except:
@@ -56,6 +65,5 @@ def lambda_handler(event, context):
             "statusCode": 400,
             "body": json.dumps({
                 "response": "Error(s) occurred.",
-                #"detail": event
-            })
+            }),
         }

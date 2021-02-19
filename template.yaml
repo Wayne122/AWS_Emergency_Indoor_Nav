@@ -658,7 +658,7 @@ Resources:
       TopicName: SmartNavigationPushNotification1
 
 
-  # Functions for ML
+  # Other Functions
   SendUserLocationFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -688,6 +688,38 @@ Resources:
           Properties:
             Path: /SendNotification
             Method: post
+
+  ActivateNotificationFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: ActivateNotification.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AmazonSNSFullAccess
+      Events:
+        ActivateNotification:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /ActivateNotification
+            Method: post
+
+  DeactivateNotificationFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: DeactivateNotification.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AmazonSNSFullAccess
+      Events:
+        DeactivateNotification:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /DeactivateNotification/{userId}
+            Method: get
 
 
   # DynamoDB Tables
