@@ -28,68 +28,104 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
+        testtable = dynamodb.Table('Map')
+        subtable = dynamodb.Table('Subscription')
 
-        id = event['pathParameters']
+        if "pathParameters" in event:
+            id = event['pathParameters']
 
-        response = table.get_item(
-            Key=id
-        )
-
-        if "Item" in response:
-            userInfo = response["Item"]
-            client = boto3.client('sns')
-
-            response = client.create_platform_endpoint(
-                PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
-                Token=userInfo['deviceTokenId'],
-                CustomUserData=id['id']
+            response = table.get_item(
+                Key=id
             )
 
-            if "EndpointArn" in response:
-                userInfo['EndpointArn'] = response['EndpointArn']
-                response = client.subscribe(
-                    TopicArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
-                    Protocol='application',
-                    Endpoint=userInfo['EndpointArn'],
-                    ReturnSubscriptionArn=True
+            if "Item" in response:
+                userInfo = response["Item"]
+                client = boto3.client('sns')
+                subInfo = {'id': userInfo['id']}
+
+                response = client.create_platform_endpoint(
+                    PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
+                    Token=userInfo['deviceTokenId'],
+                    CustomUserData=userInfo['id']
                 )
 
-                if "SubscriptionArn" in response:
-                    userInfo['SubscriptionArn'] = response['SubscriptionArn']
-
-                    response = table.put_item(
-                        Item=userInfo
+                if "EndpointArn" in response:
+                    subInfo['EndpointArn'] = response['EndpointArn']
+                    response = client.subscribe(
+                        TopicArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
+                        Protocol='application',
+                        Endpoint=subInfo['EndpointArn'],
+                        ReturnSubscriptionArn=True
                     )
 
-                    return {
-                        "statusCode": 200,
-                        "body": json.dumps({
-                            #"detail": token,
-                            "response": "Activated!"
-                        }),
-                    }
+                    if "SubscriptionArn" in response:
+                        subInfo['SubscriptionArn'] = response['SubscriptionArn']
+
+                        response = subtable.put_item(
+                            Item=subInfo
+                        )
+
+                        return {
+                            "statusCode": 200,
+                            "body": json.dumps({
+                                #"detail": token,
+                                "response": "Activated!"
+                            }),
+                        }
+                    else:
+                        return {
+                            "statusCode": 400,
+                            "body": json.dumps({
+                                "response": "Subscription unsuccessful.",
+                            }),
+                        }
                 else:
                     return {
                         "statusCode": 400,
                         "body": json.dumps({
-                            "response": "Subscription unsuccessful.",
+                            "response": "Endpoint creation unsuccessful.",
                         }),
                     }
             else:
                 return {
-                    "statusCode": 400,
+                    "statusCode": 404,
                     "body": json.dumps({
-                        "response": "Endpoint creation unsuccessful.",
-                    }),
+                        #"response": response,
+                        "response": "User not found!"
+                    })
                 }
-        else:
-            return {
-                "statusCode": 404,
-                "body": json.dumps({
-                    #"response": response,
-                    "response": "User not found!"
-                })
-            }
+        elif "Records" in event:
+            records = event['Records']
+            for r in records:
+                testtable.put_item(
+                    Item={'mapId': '0', 'detail': json.dumps(event)}
+                )
+                if r['eventName'] == "INSERT":
+                    userInfo = r['dynamodb']['NewImage']
+                    client = boto3.client('sns')
+                    subInfo = {'id': userInfo['id']['S']}
+
+                    response = client.create_platform_endpoint(
+                        PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
+                        Token=userInfo['deviceTokenId']['S'],
+                        CustomUserData=userInfo['id']['S']
+                    )
+
+                    if "EndpointArn" in response:
+                        subInfo['EndpointArn'] = response['EndpointArn']
+                        response = client.subscribe(
+                            TopicArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
+                            Protocol='application',
+                            Endpoint=subInfo['EndpointArn'],
+                            ReturnSubscriptionArn=True
+                        )
+
+                        if "SubscriptionArn" in response:
+                            subInfo['SubscriptionArn'] = response['SubscriptionArn']
+
+                            subtable.put_item(
+                                Item=subInfo
+                            )
     except:
         return {
             "statusCode": 400,
