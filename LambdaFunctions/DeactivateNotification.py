@@ -27,7 +27,7 @@ def lambda_handler(event, context):
 
     try:
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
+        table = dynamodb.Table('Subscription')
 
         id = event['pathParameters']
 
@@ -45,6 +45,10 @@ def lambda_handler(event, context):
 
             client.delete_endpoint(
                 EndpointArn=userInfo['EndpointArn']
+            )
+            
+            response = table.delete_item(
+                Key=id
             )
 
             return {
