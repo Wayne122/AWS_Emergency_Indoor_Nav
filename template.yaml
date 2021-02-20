@@ -65,7 +65,7 @@ Resources:
         GetMobileUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /MobileUser/{userId}
+            Path: /MobileUser/{id}
             Method: get
   DeleteMobileUserFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -79,7 +79,7 @@ Resources:
         DeleteMobileUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /MobileUser/{userId}
+            Path: /MobileUser/{id}
             Method: delete
 
   PostAdminFunction:
