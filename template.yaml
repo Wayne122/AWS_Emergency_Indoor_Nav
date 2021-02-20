@@ -136,7 +136,7 @@ Resources:
         GetAdmin:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /Admin/{userId}
+            Path: /Admin/{id}
             Method: get
   DeleteAdminFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -150,7 +150,7 @@ Resources:
         DeleteAdmin:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /Admin/{userId}
+            Path: /Admin/{id}
             Method: delete
 
   PostMapFunction:
@@ -671,7 +671,7 @@ Resources:
         SendUserLocation:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /SendUserLocation/{userId}
+            Path: /SendUserLocation/{id}
             Method: get
 
   SendNotificationFunction:
@@ -702,8 +702,8 @@ Resources:
         ActivateNotification:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /ActivateNotification
-            Method: post
+            Path: /ActivateNotification/{id}
+            Method: get
 
   DeactivateNotificationFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -718,7 +718,7 @@ Resources:
         DeactivateNotification:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /DeactivateNotification/{userId}
+            Path: /DeactivateNotification/{id}
             Method: get
 
 
@@ -728,10 +728,10 @@ Resources:
     Properties:
       TableName: Administrator
       AttributeDefinitions:
-        - AttributeName: userId
+        - AttributeName: id
           AttributeType: S
       KeySchema:
-        - AttributeName: userId
+        - AttributeName: id
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 5
