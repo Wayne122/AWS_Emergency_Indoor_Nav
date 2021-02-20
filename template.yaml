@@ -723,20 +723,6 @@ Resources:
 
 
   # DynamoDB Tables
-  MobileUserTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: MobileUser
-      AttributeDefinitions:
-        - AttributeName: userId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: userId
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
-
   AdministratorTable:
     Type: AWS::DynamoDB::Table
     Properties:

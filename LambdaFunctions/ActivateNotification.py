@@ -28,12 +28,12 @@ def lambda_handler(event, context):
     try:
         info = json.loads(event['body'])
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('MobileUser')
+        table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 
-        id = info['userId']
+        id = event['pathParameters']
 
         response = table.get_item(
-            Key={'userId': id}
+            Key=id
         )
 
         if "Item" in response:
@@ -49,7 +49,7 @@ def lambda_handler(event, context):
             if "EndpointArn" in response:
                 userInfo['EndpointArn'] = response['EndpointArn']
                 response = client.subscribe(
-                    TopicArn=info['TopicArn'],
+                    TopicArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
                     Protocol='application',
                     Endpoint=userInfo['EndpointArn'],
                     ReturnSubscriptionArn=True

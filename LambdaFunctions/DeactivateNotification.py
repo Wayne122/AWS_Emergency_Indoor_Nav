@@ -27,7 +27,7 @@ def lambda_handler(event, context):
 
     try:
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('MobileUser')
+        table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 
         id = event['pathParameters']
 

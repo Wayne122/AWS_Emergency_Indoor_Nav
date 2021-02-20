@@ -28,16 +28,16 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('MobileUser')
+        table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 
         body = event['body']
 
         entity = json.loads(body)
 
-        id = entity['userId']
+        id = entity['id']
 
         response = table.get_item(
-            Key={'userId': id}
+            Key={'id': id}
         )
 
         if "Item" in response:

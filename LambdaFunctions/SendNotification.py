@@ -29,7 +29,7 @@ def lambda_handler(event, context):
         msg = json.loads(event['body'])
         client = boto3.client('sns')
         response = client.publish(
-            TargetArn=msg['TargetArn'],
+            TargetArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
             Message=json.dumps(msg['Message']),
             MessageStructure=msg['MessageStructure'],
             MessageAttributes=msg['MessageAttributes']
