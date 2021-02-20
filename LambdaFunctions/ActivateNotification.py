@@ -26,7 +26,6 @@ def lambda_handler(event, context):
     """
 
     try:
-        info = json.loads(event['body'])
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 
@@ -43,7 +42,7 @@ def lambda_handler(event, context):
             response = client.create_platform_endpoint(
                 PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
                 Token=userInfo['deviceTokenId'],
-                CustomUserData=id
+                CustomUserData=id['id']
             )
 
             if "EndpointArn" in response:
