@@ -50,8 +50,31 @@ def lambda_handler(event, context):
 
                 if "EndpointArn" in response:
                     subInfo['EndpointArn'] = response['EndpointArn']
+
+                    # Get all topics
+                    topics = client.list_topics()
+                    tlist = []
+                    for topic in topics['Topics']:
+                        if topic['TopicArn'].split(':')[-1].split('_')[0] == "SmartNavigationPushNotification":
+                            tlist.append(topic['TopicArn'])
+                    
+                    # Find an usable topic
+                    tArn = ""
+                    for t in tlist:
+                        r = client.get_topic_attributes(TopicArn=t)
+                        if int(r['Attributes']['SubscriptionsConfirmed']) < 10000000:
+                            tArn = t
+                            break
+
+                    # Create topic if no topic is found
+                    if not tArn:
+                        newTopic = client.create_topic(
+                            Name='SmartNavigationPushNotification_' + str(len(tlist))
+                        )
+                        tArn = newTopic['TopicArn']
+                    
                     response = client.subscribe(
-                        TopicArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
+                        TopicArn=tArn,
                         Protocol='application',
                         Endpoint=subInfo['EndpointArn'],
                         ReturnSubscriptionArn=True
@@ -109,8 +132,31 @@ def lambda_handler(event, context):
 
                     if "EndpointArn" in response:
                         subInfo['EndpointArn'] = response['EndpointArn']
+
+                        # Get all topics
+                        topics = client.list_topics()
+                        tlist = []
+                        for topic in topics['Topics']:
+                            if topic['TopicArn'].split(':')[-1].split('_')[0] == "SmartNavigationPushNotification":
+                                tlist.append(topic['TopicArn'])
+                        
+                        # Find an usable topic
+                        tArn = ""
+                        for t in tlist:
+                            r = client.get_topic_attributes(TopicArn=t)
+                            if int(r['Attributes']['SubscriptionsConfirmed']) < 10000000:
+                                tArn = t
+                                break
+
+                        # Create topic if no topic is found
+                        if not tArn:
+                            newTopic = client.create_topic(
+                                Name='SmartNavigationPushNotification_' + str(len(tlist)+1)
+                            )
+                            tArn = newTopic['TopicArn']
+
                         response = client.subscribe(
-                            TopicArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
+                            TopicArn=tArn,
                             Protocol='application',
                             Endpoint=subInfo['EndpointArn'],
                             ReturnSubscriptionArn=True
