@@ -29,41 +29,63 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('Subscription')
 
-        id = event['pathParameters']
 
-        response = table.get_item(
-            Key=id
-        )
+        if "pathParameters" in event:
+            id = event['pathParameters']
 
-        if "Item" in response:
-            userInfo = response["Item"]
-            client = boto3.client('sns')
-
-            client.unsubscribe(
-                SubscriptionArn=userInfo['SubscriptionArn']
-            )
-
-            client.delete_endpoint(
-                EndpointArn=userInfo['EndpointArn']
-            )
-            
-            response = table.delete_item(
+            response = table.get_item(
                 Key=id
             )
 
-            return {
-                "statusCode": 200,
-                "body": json.dumps({
-                    "response": "Deactivated!",
-                })
-            }
-        else:
-            return {
-                "statusCode": 404,
-                "body": json.dumps({
-                    "response": "User not found!"
-                })
-            }
+            if "Item" in response:
+                subInfo = response["Item"]
+                client = boto3.client('sns')
+
+                client.unsubscribe(
+                    SubscriptionArn=subInfo['SubscriptionArn']
+                )
+
+                client.delete_endpoint(
+                    EndpointArn=subInfo['EndpointArn']
+                )
+
+                table.delete_item(
+                    Key=id
+                )
+
+                return {
+                    "statusCode": 200,
+                    "body": json.dumps({
+                        "response": "Deactivated!",
+                    })
+                }
+            else:
+                return {
+                    "statusCode": 404,
+                    "body": json.dumps({
+                        "response": "User not found!"
+                    })
+                }
+        elif "Records" in event:
+            records = event['Records']
+            for r in records:
+                if r['eventName'] == "REMOVE":
+                    response = table.get_item(Key={'id': r['dynamodb']['OldImage']['id']['S']})
+                    if "Item" in response:
+                        subInfo = response["Item"]
+                        client = boto3.client('sns')
+
+                        client.unsubscribe(
+                            SubscriptionArn=subInfo['SubscriptionArn']
+                        )
+
+                        client.delete_endpoint(
+                            EndpointArn=subInfo['EndpointArn']
+                        )
+
+                        table.delete_item(
+                            Key={'id': r['dynamodb']['OldImage']['id']['S']}
+                        )
     except:
         return {
             "statusCode": 400,

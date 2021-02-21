@@ -28,7 +28,6 @@ def lambda_handler(event, context):
     try:
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
-        testtable = dynamodb.Table('Map')
         subtable = dynamodb.Table('Subscription')
 
         if "pathParameters" in event:
@@ -97,9 +96,6 @@ def lambda_handler(event, context):
         elif "Records" in event:
             records = event['Records']
             for r in records:
-                testtable.put_item(
-                    Item={'mapId': '0', 'detail': json.dumps(event)}
-                )
                 if r['eventName'] == "INSERT":
                     userInfo = r['dynamodb']['NewImage']
                     client = boto3.client('sns')
