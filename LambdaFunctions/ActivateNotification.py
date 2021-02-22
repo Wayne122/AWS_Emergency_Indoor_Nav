@@ -160,7 +160,7 @@ def lambda_handler(event, context):
                             EndpointArn=unsubInfo['EndpointArn']
                         )
 
-                        table.delete_item(
+                        subtable.delete_item(
                             Key={'id': userInfo['id']['S']}
                         )
 
