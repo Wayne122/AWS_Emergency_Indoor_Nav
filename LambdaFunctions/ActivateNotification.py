@@ -40,7 +40,28 @@ def lambda_handler(event, context):
             if "Item" in response:
                 userInfo = response["Item"]
                 client = boto3.client('sns')
-                subInfo = {'id': userInfo['id']}
+
+                # Delete endpoint if already exist
+                response = subtable.get_item(
+                    Key=id
+                )
+                if "Item" in response:
+                    unsubInfo = response["Item"]
+                    client = boto3.client('sns')
+
+                    client.unsubscribe(
+                        SubscriptionArn=unsubInfo['SubscriptionArn']
+                    )
+
+                    client.delete_endpoint(
+                        EndpointArn=unsubInfo['EndpointArn']
+                    )
+
+                    table.delete_item(
+                        Key=id
+                    )
+
+                subInfo = id
 
                 response = client.create_platform_endpoint(
                     PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
@@ -122,6 +143,27 @@ def lambda_handler(event, context):
                 if r['eventName'] == "INSERT":
                     userInfo = r['dynamodb']['NewImage']
                     client = boto3.client('sns')
+
+                    # Delete endpoint if already exist
+                    response = subtable.get_item(
+                        Key={'id': userInfo['id']['S']}
+                    )
+                    if "Item" in response:
+                        unsubInfo = response["Item"]
+                        client = boto3.client('sns')
+
+                        client.unsubscribe(
+                            SubscriptionArn=unsubInfo['SubscriptionArn']
+                        )
+
+                        client.delete_endpoint(
+                            EndpointArn=unsubInfo['EndpointArn']
+                        )
+
+                        table.delete_item(
+                            Key={'id': userInfo['id']['S']}
+                        )
+
                     subInfo = {'id': userInfo['id']['S']}
 
                     response = client.create_platform_endpoint(
