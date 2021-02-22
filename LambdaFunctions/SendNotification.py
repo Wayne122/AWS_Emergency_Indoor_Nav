@@ -28,29 +28,29 @@ def lambda_handler(event, context):
     try:
         msg = json.loads(event['body'])
         client = boto3.client('sns')
-        response = client.publish(
-            TargetArn="arn:aws:sns:us-east-1:756906170378:SmartNavigationPushNotification1",
-            Message=json.dumps(msg['Message']),
-            MessageStructure=msg['MessageStructure'],
-            MessageAttributes=msg['MessageAttributes']
-        )
 
-        if "MessageId" in response:
-            return {
-                "statusCode": 200,
-                "body": json.dumps({
-                    #"response": response,
-                    "response": "Sent!"
-                }),
-            }
-        else:
-            return {
-                "statusCode": 400,
-                "body": json.dumps({
-                    "response": "Error(s) occurred.",
-                    #"detail": response
-                })
-            }
+        # Get all topics
+        topics = client.list_topics()
+        tlist = []
+        for topic in topics['Topics']:
+            if topic['TopicArn'].split(':')[-1].split('_')[0] == "SmartNavigationPushNotification":
+                tlist.append(topic['TopicArn'])
+        
+        for t in tlist:
+            response = client.publish(
+                TargetArn=t,
+                Message=json.dumps(msg['Message']),
+                MessageStructure=msg['MessageStructure'],
+                MessageAttributes=msg['MessageAttributes']
+            )
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps({
+                #"response": response,
+                "response": "Sent!"
+            }),
+        }
     except:
         return {
             "statusCode": 400,
