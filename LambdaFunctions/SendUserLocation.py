@@ -41,7 +41,7 @@ def lambda_handler(event, context):
             userInfo = response['Item']
 
             # Get shortest path
-            response = lc.invoke(FunctionName = 'GetShortestPathFunction', Payload=json.dumps({'start_node':userInfo['location']['start_node'], 'end_node':'10'}))
+            response = lc.invoke(FunctionName = 'GetShortestPathFunction', Payload=json.dumps(userInfo['location']))
             sp = json.load(response['Payload'])['body']
 
             pathTable.put_item(
