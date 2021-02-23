@@ -1,7 +1,11 @@
 import json
 import boto3
-# import requests
+import urllib3
 
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
+pathTable = dynamodb.Table('Directions')
+lc = boto3.client('lambda')
 
 def lambda_handler(event, context):
     """Sample pure Lambda function
@@ -26,10 +30,6 @@ def lambda_handler(event, context):
     """
 
     try:
-        dynamodb = boto3.resource('dynamodb')
-
-        table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
-
         id = event['pathParameters']
 
         response = table.get_item(
@@ -38,11 +38,42 @@ def lambda_handler(event, context):
 
         if "Item" in response:
             # Send information to path finding instance
+            userInfo = response['Item']
+
+            # Get shortest path
+            response = lc.invoke(FunctionName = 'GetShortestPathFunction', Payload=json.dumps({'start_node':userInfo['location']['start_node'], 'end_node':'10'}))
+            sp = json.load(response['Payload'])['body']
+
+            pathTable.put_item(
+                Item={"directionsId": id['id'], "path": sp}
+            )
+
+            # Send push notification
+            http = urllib3.PoolManager()
+            data = {
+                "Message": {
+                    "default": sp
+                },
+                "MessageStructure": "json",
+                "MessageAttributes": {
+                    "msgattr": {
+                        "DataType": "String",
+                        "StringValue": "attribute here"
+                    }
+                }
+            }
+
+            r = http.request(
+                'POST',
+                'https://hza50oxgik.execute-api.us-east-1.amazonaws.com/Prod/SendNotification',
+                body=json.dumps(data).encode('utf-8'),
+                headers={'Content-Type': 'application/json'}
+            )
 
             return {
                 "statusCode": 200,
                 "body": json.dumps({
-                    #"response": response,
+                    #"detail": json.loads(r.data.decode('utf-8')),
                     "response": "Sent!"
                 }),
             }
@@ -59,5 +90,6 @@ def lambda_handler(event, context):
             "statusCode": 400,
             "body": json.dumps({
                 "response": "Error(s) occurred.",
+                #"detail": event
             }),
         }

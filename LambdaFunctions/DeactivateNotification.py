@@ -1,6 +1,9 @@
 import json
 import boto3
-# import requests
+
+dynamodb = boto3.resource('dynamodb')
+client = boto3.client('sns')
+table = dynamodb.Table('Subscription')
 
 
 def lambda_handler(event, context):
@@ -26,10 +29,6 @@ def lambda_handler(event, context):
     """
 
     try:
-        dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('Subscription')
-
-
         if "pathParameters" in event:
             id = event['pathParameters']
 
@@ -39,7 +38,6 @@ def lambda_handler(event, context):
 
             if "Item" in response:
                 subInfo = response["Item"]
-                client = boto3.client('sns')
 
                 client.unsubscribe(
                     SubscriptionArn=subInfo['SubscriptionArn']
@@ -73,7 +71,6 @@ def lambda_handler(event, context):
                     response = table.get_item(Key={'id': r['dynamodb']['OldImage']['id']['S']})
                     if "Item" in response:
                         subInfo = response["Item"]
-                        client = boto3.client('sns')
 
                         client.unsubscribe(
                             SubscriptionArn=subInfo['SubscriptionArn']

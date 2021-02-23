@@ -1,7 +1,7 @@
 import json
 import boto3
-# import requests
 
+client = boto3.client('sns')
 
 def lambda_handler(event, context):
     """Sample pure Lambda function
@@ -27,7 +27,6 @@ def lambda_handler(event, context):
 
     try:
         msg = json.loads(event['body'])
-        client = boto3.client('sns')
 
         # Get all topics
         topics = client.list_topics()
@@ -37,7 +36,7 @@ def lambda_handler(event, context):
                 tlist.append(topic['TopicArn'])
         
         for t in tlist:
-            response = client.publish(
+            r = client.publish(
                 TargetArn=t,
                 Message=json.dumps(msg['Message']),
                 MessageStructure=msg['MessageStructure'],
@@ -47,7 +46,7 @@ def lambda_handler(event, context):
         return {
             "statusCode": 200,
             "body": json.dumps({
-                #"response": response,
+                #"detail": r,
                 "response": "Sent!"
             }),
         }

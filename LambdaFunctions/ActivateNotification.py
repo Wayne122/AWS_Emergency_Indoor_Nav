@@ -1,6 +1,10 @@
 import json
 import boto3
-# import requests
+
+dynamodb = boto3.resource('dynamodb')
+client = boto3.client('sns')
+table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
+subtable = dynamodb.Table('Subscription')
 
 
 def lambda_handler(event, context):
@@ -26,10 +30,6 @@ def lambda_handler(event, context):
     """
 
     try:
-        dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
-        subtable = dynamodb.Table('Subscription')
-
         if "pathParameters" in event:
             id = event['pathParameters']
 
@@ -39,7 +39,6 @@ def lambda_handler(event, context):
 
             if "Item" in response:
                 userInfo = response["Item"]
-                client = boto3.client('sns')
 
                 # Delete endpoint if already exist
                 response = subtable.get_item(
@@ -47,7 +46,6 @@ def lambda_handler(event, context):
                 )
                 if "Item" in response:
                     unsubInfo = response["Item"]
-                    client = boto3.client('sns')
 
                     client.unsubscribe(
                         SubscriptionArn=unsubInfo['SubscriptionArn']
@@ -142,7 +140,6 @@ def lambda_handler(event, context):
             for r in records:
                 if r['eventName'] == "INSERT":
                     userInfo = r['dynamodb']['NewImage']
-                    client = boto3.client('sns')
 
                     # Delete endpoint if already exist
                     response = subtable.get_item(
@@ -150,7 +147,6 @@ def lambda_handler(event, context):
                     )
                     if "Item" in response:
                         unsubInfo = response["Item"]
-                        client = boto3.client('sns')
 
                         client.unsubscribe(
                             SubscriptionArn=unsubInfo['SubscriptionArn']
