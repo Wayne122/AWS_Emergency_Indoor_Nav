@@ -660,7 +660,8 @@ Resources:
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
-        - AWSLambda_FullAccess 
+        - AWSLambda_FullAccess
+        - AmazonSNSFullAccess
       Events:
         TriggerEmergency:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

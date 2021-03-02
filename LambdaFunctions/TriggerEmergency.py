@@ -3,8 +3,10 @@ import boto3
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
+subtable = dynamodb.Table('Subscription')
 pathTable = dynamodb.Table('Directions')
 lc = boto3.client('lambda')
+snsc = boto3.client('sns')
 
 def lambda_handler(event, context):
     """Sample pure Lambda function
@@ -31,28 +33,53 @@ def lambda_handler(event, context):
     try:
         id = event['pathParameters']
 
-        #test_counter = 0
+        test_counter = 0
 
+        # Get all user
         response = table.scan()
 
+        # if there's any user
         if response['Items']:
-            # Send information to path finding instance
             userList = response["Items"]
+
+            # dict{userId: locationId}
+            relUsers = {}
+
+            # list[locationId]
+            relLocations = []
+
+            # Get all relevant users
             for userInfo in userList:
                 if 'buildingId' in userInfo and userInfo['buildingId'] == id['id']:
-                    #test_counter += 1
-                    # Get shortest path
-                    response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps(userInfo['location']))
-                    sp = json.load(response['Payload'])['body']
+                    relUsers[userInfo['id']] = userInfo['location']['start_node']
+                    relLocations.append(userInfo['location']['start_node'])
 
-                    pathTable.put_item(
-                        Item={"directionsId": id['id'], "path": sp}
-                    )
+            # Remove duplicates
+            relLocations = list(set(relLocations))
 
-                    # Send push notification
-                    data = {
+            # dict{locationId: Path}
+            relPaths = {}
+
+            # Get shortest path for all relevant locations
+            for l in relLocations:
+                response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
+                relPaths[l] = json.load(response['Payload'])['body']
+                pathTable.put_item(
+                    Item={"directionsId": l, "path": relPaths[l]}
+                )
+
+            # Send push notifications to all relevant users
+            for u, l in relUsers.items():
+                # Get endpoint
+                response = subtable.get_item(
+                    Key={'id': u}
+                )
+
+                # If endpoint exist
+                if "Item" in response:
+                    msg = {
                         "Message": {
-                            "default": sp
+                            "default": relPaths[l]
                         },
                         "MessageStructure": "json",
                         "MessageAttributes": {
@@ -62,14 +89,19 @@ def lambda_handler(event, context):
                             }
                         }
                     }
-
-                    response = lc.invoke(FunctionName = 'SmartNavigationSystemForE-SendNotificationFunction-1AYXJY2TSLIJ3', Payload=json.dumps(data))
+                    snsc.publish(
+                        TargetArn=response['Item']['EndpointArn'],
+                        Message=json.dumps(msg['Message']),
+                        MessageStructure=msg['MessageStructure'],
+                        MessageAttributes=msg['MessageAttributes']
+                    )
+                    test_counter += 1
 
             return {
                 "statusCode": 200,
                 "body": json.dumps({
                     #"detail": json.load(response['Payload'])['body'],
-                    #"user count": test_counter,
+                    "msg count": test_counter,
                     "response": "Sent!"
                 }),
             }
