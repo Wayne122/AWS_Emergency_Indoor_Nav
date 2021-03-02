@@ -31,42 +31,45 @@ def lambda_handler(event, context):
     try:
         id = event['pathParameters']
 
-        response = table.get_item(
-            Key=id
-        )
+        #test_counter = 0
 
-        if "Item" in response:
+        response = table.scan()
+
+        if response['Items']:
             # Send information to path finding instance
-            userInfo = response['Item']
+            userList = response["Items"]
+            for userInfo in userList:
+                if 'buildingId' in userInfo and userInfo['buildingId'] == id['id']:
+                    #test_counter += 1
+                    # Get shortest path
+                    response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps(userInfo['location']))
+                    sp = json.load(response['Payload'])['body']
 
-            # Get shortest path
-            response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps(userInfo['location']))
-            sp = json.load(response['Payload'])['body']
+                    pathTable.put_item(
+                        Item={"directionsId": id['id'], "path": sp}
+                    )
 
-            pathTable.put_item(
-                Item={"directionsId": id['id'], "path": sp}
-            )
-
-            # Send push notification
-            data = {
-                "Message": {
-                    "default": sp
-                },
-                "MessageStructure": "json",
-                "MessageAttributes": {
-                    "msgattr": {
-                        "DataType": "String",
-                        "StringValue": "attribute here"
+                    # Send push notification
+                    data = {
+                        "Message": {
+                            "default": sp
+                        },
+                        "MessageStructure": "json",
+                        "MessageAttributes": {
+                            "msgattr": {
+                                "DataType": "String",
+                                "StringValue": "attribute here"
+                            }
+                        }
                     }
-                }
-            }
 
-            response = lc.invoke(FunctionName = 'SmartNavigationSystemForE-SendNotificationFunction-1AYXJY2TSLIJ3', Payload=json.dumps(data))
+                    response = lc.invoke(FunctionName = 'SmartNavigationSystemForE-SendNotificationFunction-1AYXJY2TSLIJ3', Payload=json.dumps(data))
 
             return {
                 "statusCode": 200,
                 "body": json.dumps({
                     #"detail": json.load(response['Payload'])['body'],
+                    #"user count": test_counter,
                     "response": "Sent!"
                 }),
             }
@@ -75,7 +78,7 @@ def lambda_handler(event, context):
                 "statusCode": 404,
                 "body": json.dumps({
                     #"response": response,
-                    "response": "User not found!"
+                    "response": "No user is found!"
                 })
             }
     except:

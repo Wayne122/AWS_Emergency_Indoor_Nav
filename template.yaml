@@ -652,20 +652,20 @@ Resources:
 
 
   # Other Functions
-  SendUserLocationFunction:
+  TriggerEmergencyFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: LambdaFunctions/
-      Handler: SendUserLocation.lambda_handler
+      Handler: TriggerEmergency.lambda_handler
       Runtime: python3.7
       Policies:
         - AmazonDynamoDBFullAccess
         - AWSLambda_FullAccess 
       Events:
-        SendUserLocation:
+        TriggerEmergency:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /SendUserLocation/{id}
+            Path: /TriggerEmergency/{id}
             Method: get
       Timeout: 40
 
