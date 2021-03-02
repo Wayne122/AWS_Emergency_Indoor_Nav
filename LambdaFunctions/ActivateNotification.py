@@ -206,6 +206,78 @@ def lambda_handler(event, context):
                             subtable.put_item(
                                 Item=subInfo
                             )
+                elif r['eventName'] == "MODIFY":
+                    newUserInfo = r['dynamodb']['NewImage']
+                    oldUserInfo = r['dynamodb']['OldImage']
+
+                    # Check if token is updated
+                    if newUserInfo['deviceTokenId']['S'] != oldUserInfo['deviceTokenId']['S']:
+                        # Delete old subscription
+                        response = subtable.get_item(
+                            Key={'id': newUserInfo['id']['S']}
+                        )
+                        if "Item" in response:
+                            unsubInfo = response["Item"]
+
+                            client.unsubscribe(
+                                SubscriptionArn=unsubInfo['SubscriptionArn']
+                            )
+
+                            client.delete_endpoint(
+                                EndpointArn=unsubInfo['EndpointArn']
+                            )
+
+                            subtable.delete_item(
+                                Key={'id': newUserInfo['id']['S']}
+                            )
+                        
+                        # Re-subscribe
+                        subInfo = {'id': newUserInfo['id']['S']}
+
+                        response = client.create_platform_endpoint(
+                            PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
+                            Token=newUserInfo['deviceTokenId']['S'],
+                            CustomUserData=newUserInfo['id']['S']
+                        )
+
+                        if "EndpointArn" in response:
+                            subInfo['EndpointArn'] = response['EndpointArn']
+
+                            # Get all topics
+                            topics = client.list_topics()
+                            tlist = []
+                            for topic in topics['Topics']:
+                                if topic['TopicArn'].split(':')[-1].split('_')[0] == "SmartNavigationPushNotification":
+                                    tlist.append(topic['TopicArn'])
+                            
+                            # Find an usable topic
+                            tArn = ""
+                            for t in tlist:
+                                r = client.get_topic_attributes(TopicArn=t)
+                                if int(r['Attributes']['SubscriptionsConfirmed']) < 10000000:
+                                    tArn = t
+                                    break
+
+                            # Create topic if no topic is found
+                            if not tArn:
+                                newTopic = client.create_topic(
+                                    Name='SmartNavigationPushNotification_' + str(len(tlist)+1)
+                                )
+                                tArn = newTopic['TopicArn']
+
+                            response = client.subscribe(
+                                TopicArn=tArn,
+                                Protocol='application',
+                                Endpoint=subInfo['EndpointArn'],
+                                ReturnSubscriptionArn=True
+                            )
+
+                            if "SubscriptionArn" in response:
+                                subInfo['SubscriptionArn'] = response['SubscriptionArn']
+
+                                subtable.put_item(
+                                    Item=subInfo
+                                )
     except:
         return {
             "statusCode": 400,
