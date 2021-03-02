@@ -1,6 +1,5 @@
 import json
 import boto3
-import urllib3
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
@@ -41,7 +40,7 @@ def lambda_handler(event, context):
             userInfo = response['Item']
 
             # Get shortest path
-            response = lc.invoke(FunctionName = 'GetShortestPathFunction', Payload=json.dumps(userInfo['location']))
+            response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps(userInfo['location']))
             sp = json.load(response['Payload'])['body']
 
             pathTable.put_item(
@@ -49,7 +48,6 @@ def lambda_handler(event, context):
             )
 
             # Send push notification
-            http = urllib3.PoolManager()
             data = {
                 "Message": {
                     "default": sp
@@ -63,17 +61,12 @@ def lambda_handler(event, context):
                 }
             }
 
-            r = http.request(
-                'POST',
-                'https://hza50oxgik.execute-api.us-east-1.amazonaws.com/Prod/SendNotification',
-                body=json.dumps(data).encode('utf-8'),
-                headers={'Content-Type': 'application/json'}
-            )
+            response = lc.invoke(FunctionName = 'SmartNavigationSystemForE-SendNotificationFunction-1AYXJY2TSLIJ3', Payload=json.dumps(data))
 
             return {
                 "statusCode": 200,
                 "body": json.dumps({
-                    #"detail": json.loads(r.data.decode('utf-8')),
+                    #"detail": json.load(response['Payload'])['body'],
                     "response": "Sent!"
                 }),
             }

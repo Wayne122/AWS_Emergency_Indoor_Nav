@@ -26,7 +26,10 @@ def lambda_handler(event, context):
     """
 
     try:
-        msg = json.loads(event['body'])
+        if "body" in event:
+            msg = json.loads(event['body'])
+        else:
+            msg = event
 
         # Get all topics
         topics = client.list_topics()
@@ -55,6 +58,6 @@ def lambda_handler(event, context):
             "statusCode": 400,
             "body": json.dumps({
                 "response": "Error(s) occurred.",
-                #"detail": event
+                "detail": event
             })
         }
