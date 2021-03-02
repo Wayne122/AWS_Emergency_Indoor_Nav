@@ -667,7 +667,7 @@ Resources:
           Properties:
             Path: /TriggerEmergency/{id}
             Method: get
-      Timeout: 40
+      Timeout: 900
 
   SendNotificationFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
