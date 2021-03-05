@@ -51,8 +51,8 @@ def lambda_handler(event, context):
             # Get all relevant users
             for userInfo in userList:
                 if 'buildingId' in userInfo and userInfo['buildingId'] == id['id']:
-                    relUsers[userInfo['id']] = userInfo['location']['start_node']
-                    relLocations.append(userInfo['location']['start_node'])
+                    relUsers[userInfo['id']] = userInfo['location']
+                    relLocations.append(userInfo['location'])
 
             # Remove duplicates
             relLocations = list(set(relLocations))
