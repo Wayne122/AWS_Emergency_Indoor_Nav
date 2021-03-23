@@ -31,94 +31,173 @@ def lambda_handler(event, context):
     """
 
     try:
-        id = event['pathParameters']
+        if "pathParameters" in event:
+            id = event['pathParameters']
 
-        test_counter = 0
+            test_counter = 0
 
-        # Get all user
-        response = table.scan()
+            # Get all user
+            response = table.scan()
 
-        # if there's any user
-        if response['Items']:
-            userList = response["Items"]
+            # if there's any user
+            if response['Items']:
+                userList = response["Items"]
 
-            # dict{userId: locationId}
-            relUsers = {}
+                # dict{userId: locationId}
+                relUsers = {}
 
-            # list[locationId]
-            relLocations = []
+                # list[locationId]
+                relLocations = []
 
-            # Get all relevant users
-            for userInfo in userList:
-                if 'buildingId' in userInfo and userInfo['buildingId'] == id['id']:
-                    relUsers[userInfo['id']] = userInfo['location']
-                    relLocations.append(userInfo['location'])
+                # Get all relevant users
+                for userInfo in userList:
+                    if 'buildingId' in userInfo and userInfo['buildingId'] == id['id']:
+                        relUsers[userInfo['id']] = userInfo['location']
+                        relLocations.append(userInfo['location'])
 
-            # Remove duplicates
-            relLocations = list(set(relLocations))
+                # Remove duplicates
+                relLocations = list(set(relLocations))
 
-            # dict{locationId: Path}
-            relPaths = {}
+                # dict{locationId: Path}
+                relPaths = {}
 
-            # Get shortest path for all relevant locations
-            for l in relLocations:
-                response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
-                relPaths[l] = json.load(response['Payload'])
-                pathTable.put_item(
-                    Item={"directionsId": l, "path": relPaths[l]}
-                )
+                # Get shortest path for all relevant locations
+                for l in relLocations:
+                    response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
+                    relPaths[l] = json.load(response['Payload'])
+                    pathTable.put_item(
+                        Item={"directionsId": l, "path": relPaths[l]}
+                    )
 
-            # Send push notifications to all relevant users
-            for u, l in relUsers.items():
-                # Get endpoint
-                response = subtable.get_item(
-                    Key={'id': u}
-                )
+                # Send push notifications to all relevant users
+                for u, l in relUsers.items():
+                    # Get endpoint
+                    response = subtable.get_item(
+                        Key={'id': u}
+                    )
 
-                # If endpoint exist
-                if "Item" in response:
-                    msg = {
-                        "Message": {
-                            "default": json.dumps({
-                                "title": "Emergency Alert",
-                                "body": "Follow the instructions to exit the building"
-                            })
-                        },
-                        "MessageStructure": "json",
-                        "MessageAttributes": {
-                            "shortestPath": {
-                                "DataType": "String",
-                                "StringValue": json.dumps(relPaths[l])
+                    # If endpoint exist
+                    if "Item" in response:
+                        msg = {
+                            "Message": {
+                                "default": json.dumps({
+                                    "title": "Emergency Alert",
+                                    "body": "Follow the instructions to exit the building"
+                                })
+                            },
+                            "MessageStructure": "json",
+                            "MessageAttributes": {
+                                "shortestPath": {
+                                    "DataType": "String",
+                                    "StringValue": json.dumps(relPaths[l])
+                                }
                             }
                         }
-                    }
-                    try:
-                        snsc.publish(
-                            TargetArn=response['Item']['EndpointArn'],
-                            Message=json.dumps(msg['Message']),
-                            MessageStructure=msg['MessageStructure'],
-                            MessageAttributes=msg['MessageAttributes']
-                        )
-                        test_counter += 1
-                    except:
-                        pass
+                        try:
+                            snsc.publish(
+                                TargetArn=response['Item']['EndpointArn'],
+                                Message=json.dumps(msg['Message']),
+                                MessageStructure=msg['MessageStructure'],
+                                MessageAttributes=msg['MessageAttributes']
+                            )
+                            test_counter += 1
+                        except:
+                            pass
 
-            return {
-                "statusCode": 200,
-                "body": json.dumps({
-                    #"detail": json.load(response['Payload'])['body'],
-                    "msg count": test_counter,
-                    "response": "Sent!"
-                }),
-            }
-        else:
-            return {
-                "statusCode": 404,
-                "body": json.dumps({
-                    #"response": response,
-                    "response": "No user is found!"
-                })
-            }
+                return {
+                    "statusCode": 200,
+                    "body": json.dumps({
+                        #"detail": json.load(response['Payload'])['body'],
+                        "msg count": test_counter,
+                        "response": "Sent!"
+                    }),
+                }
+            else:
+                return {
+                    "statusCode": 404,
+                    "body": json.dumps({
+                        #"response": response,
+                        "response": "No user is found!"
+                    })
+                }
+        elif "Records" in event:
+            records = event['Records']
+            for r in records:
+                if r['eventName'] == "INSERT" or r['eventName'] == "MODIFY":
+                    buildingInfo = r['dynamodb']['NewImage']
+
+                    if buildingInfo['emergency']['S'] == "True":     # emergency status
+                        buildingId = buildingInfo['buildingId']['S'] # Primary key for building table
+
+                        test_counter = 0
+
+                        # Get all user
+                        response = table.scan()
+
+                        # if there's any user
+                        if response['Items']:
+                            userList = response["Items"]
+
+                            # dict{userId: locationId}
+                            relUsers = {}
+
+                            # list[locationId]
+                            relLocations = []
+
+                            # Get all relevant users
+                            for userInfo in userList:
+                                if 'buildingId' in userInfo and userInfo['buildingId'] == buildingId:
+                                    relUsers[userInfo['id']] = userInfo['location']
+                                    relLocations.append(userInfo['location'])
+
+                            # Remove duplicates
+                            relLocations = list(set(relLocations))
+
+                            # dict{locationId: Path}
+                            relPaths = {}
+
+                            # Get shortest path for all relevant locations
+                            for l in relLocations:
+                                response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
+                                relPaths[l] = json.load(response['Payload'])
+                                pathTable.put_item(
+                                    Item={"directionsId": l, "path": relPaths[l]}
+                                )
+
+                            # Send push notifications to all relevant users
+                            for u, l in relUsers.items():
+                                # Get endpoint
+                                response = subtable.get_item(
+                                    Key={'id': u}
+                                )
+
+                                # If endpoint exist
+                                if "Item" in response:
+                                    msg = {
+                                        "Message": {
+                                            "default": json.dumps({
+                                                "title": "Emergency Alert",
+                                                "body": "Follow the instructions to exit the building"
+                                            })
+                                        },
+                                        "MessageStructure": "json",
+                                        "MessageAttributes": {
+                                            "shortestPath": {
+                                                "DataType": "String",
+                                                "StringValue": json.dumps(relPaths[l])
+                                            }
+                                        }
+                                    }
+                                    try:
+                                        snsc.publish(
+                                            TargetArn=response['Item']['EndpointArn'],
+                                            Message=json.dumps(msg['Message']),
+                                            MessageStructure=msg['MessageStructure'],
+                                            MessageAttributes=msg['MessageAttributes']
+                                        )
+                                        test_counter += 1
+                                    except:
+                                        pass
     except:
         return {
             "statusCode": 400,
