@@ -63,7 +63,7 @@ def lambda_handler(event, context):
             # Get shortest path for all relevant locations
             for l in relLocations:
                 response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
-                relPaths[l] = json.load(response['Payload'])['body']
+                relPaths[l] = json.load(response['Payload'])
                 pathTable.put_item(
                     Item={"directionsId": l, "path": relPaths[l]}
                 )
@@ -79,7 +79,7 @@ def lambda_handler(event, context):
                 if "Item" in response:
                     msg = {
                         "Message": {
-                            "default": relPaths[l]
+                            "default": json.dumps(relPaths[l])
                         },
                         "MessageStructure": "json",
                         "MessageAttributes": {
