@@ -79,23 +79,29 @@ def lambda_handler(event, context):
                 if "Item" in response:
                     msg = {
                         "Message": {
-                            "default": json.dumps(relPaths[l])
+                            "default": json.dumps({
+                                "title": "Emergency Alert",
+                                "body": "Follow the instructions to exit the building"
+                            })
                         },
                         "MessageStructure": "json",
                         "MessageAttributes": {
-                            "msgattr": {
+                            "shortestPath": {
                                 "DataType": "String",
-                                "StringValue": "attribute here"
+                                "StringValue": json.dumps(relPaths[l])
                             }
                         }
                     }
-                    snsc.publish(
-                        TargetArn=response['Item']['EndpointArn'],
-                        Message=json.dumps(msg['Message']),
-                        MessageStructure=msg['MessageStructure'],
-                        MessageAttributes=msg['MessageAttributes']
-                    )
-                    test_counter += 1
+                    try:
+                        snsc.publish(
+                            TargetArn=response['Item']['EndpointArn'],
+                            Message=json.dumps(msg['Message']),
+                            MessageStructure=msg['MessageStructure'],
+                            MessageAttributes=msg['MessageAttributes']
+                        )
+                        test_counter += 1
+                    except:
+                        pass
 
             return {
                 "statusCode": 200,
