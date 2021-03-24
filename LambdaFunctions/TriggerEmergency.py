@@ -4,7 +4,7 @@ import boto3
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 subtable = dynamodb.Table('Subscription')
-pathTable = dynamodb.Table('Directions')
+# pathTable = dynamodb.Table('Directions')
 lc = boto3.client('lambda')
 snsc = boto3.client('sns')
 
@@ -65,9 +65,9 @@ def lambda_handler(event, context):
                 for l in relLocations:
                     response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
                     relPaths[l] = json.load(response['Payload'])
-                    pathTable.put_item(
-                        Item={"directionsId": l, "path": relPaths[l]}
-                    )
+                    # pathTable.put_item(
+                    #     Item={"directionsId": l, "path": relPaths[l]}
+                    # )
 
                 # Send push notifications to all relevant users
                 for u, l in relUsers.items():
@@ -80,25 +80,24 @@ def lambda_handler(event, context):
                     if "Item" in response:
                         msg = {
                             "Message": {
-                                "default": json.dumps({
-                                    "title": "Emergency Alert",
-                                    "body": "Follow the instructions to exit the building"
+                                "default": "default message",
+                                "APNS_SANDBOX": json.dumps({
+                                    "aps": {
+                                        "alert": {
+                                            "title": "Emergency Alert",
+                                            "body": "Follow the instructions to exit the building"
+                                        }
+                                    },
+                                    "shortestPath": json.dumps(relPaths[l])
                                 })
                             },
-                            "MessageStructure": "json",
-                            "MessageAttributes": {
-                                "shortestPath": {
-                                    "DataType": "String",
-                                    "StringValue": json.dumps(relPaths[l])
-                                }
-                            }
+                            "MessageStructure": "json"
                         }
                         try:
                             snsc.publish(
                                 TargetArn=response['Item']['EndpointArn'],
                                 Message=json.dumps(msg['Message']),
-                                MessageStructure=msg['MessageStructure'],
-                                MessageAttributes=msg['MessageAttributes']
+                                MessageStructure=msg['MessageStructure']
                             )
                             test_counter += 1
                         except:
@@ -160,9 +159,9 @@ def lambda_handler(event, context):
                             for l in relLocations:
                                 response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
                                 relPaths[l] = json.load(response['Payload'])
-                                pathTable.put_item(
-                                    Item={"directionsId": l, "path": relPaths[l]}
-                                )
+                                # pathTable.put_item(
+                                #     Item={"directionsId": l, "path": relPaths[l]}
+                                # )
 
                             # Send push notifications to all relevant users
                             for u, l in relUsers.items():
@@ -175,25 +174,24 @@ def lambda_handler(event, context):
                                 if "Item" in response:
                                     msg = {
                                         "Message": {
-                                            "default": json.dumps({
-                                                "title": "Emergency Alert",
-                                                "body": "Follow the instructions to exit the building"
+                                            "default": "default message",
+                                            "APNS_SANDBOX": json.dumps({
+                                                "aps": {
+                                                    "alert": {
+                                                        "title": "Emergency Alert",
+                                                        "body": "Follow the instructions to exit the building"
+                                                    }
+                                                },
+                                                "shortestPath": json.dumps(relPaths[l])
                                             })
                                         },
-                                        "MessageStructure": "json",
-                                        "MessageAttributes": {
-                                            "shortestPath": {
-                                                "DataType": "String",
-                                                "StringValue": json.dumps(relPaths[l])
-                                            }
-                                        }
+                                        "MessageStructure": "json"
                                     }
                                     try:
                                         snsc.publish(
                                             TargetArn=response['Item']['EndpointArn'],
                                             Message=json.dumps(msg['Message']),
-                                            MessageStructure=msg['MessageStructure'],
-                                            MessageAttributes=msg['MessageAttributes']
+                                            MessageStructure=msg['MessageStructure']
                                         )
                                         test_counter += 1
                                     except:
