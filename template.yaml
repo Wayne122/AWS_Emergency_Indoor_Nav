@@ -82,573 +82,573 @@ Resources:
             Path: /MobileUser/{id}
             Method: delete
 
-  PostAdminFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostAdmin.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostAdmin:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Admin
-            Method: post
-  PutAdminFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutAdmin.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutAdmin:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Admin
-            Method: put
-  GetAllAdminFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllAdmin.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllAdmin:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Admin
-            Method: get
-  GetAdminFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAdmin.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAdmin:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Admin/{id}
-            Method: get
-  DeleteAdminFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteAdmin.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteAdmin:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Admin/{id}
-            Method: delete
+  # PostAdminFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostAdmin.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostAdmin:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Admin
+  #           Method: post
+  # PutAdminFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutAdmin.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutAdmin:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Admin
+  #           Method: put
+  # GetAllAdminFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllAdmin.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllAdmin:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Admin
+  #           Method: get
+  # GetAdminFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAdmin.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAdmin:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Admin/{id}
+  #           Method: get
+  # DeleteAdminFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteAdmin.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteAdmin:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Admin/{id}
+  #           Method: delete
 
-  PostMapFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostMap.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostMap:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Map
-            Method: post
-  PutMapFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutMap.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutMap:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Map
-            Method: put
-  GetAllMapFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllMap.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllMap:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Map
-            Method: get
-  GetMapFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetMap.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetMap:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Map/{mapId}
-            Method: get
-  DeleteMapFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteMap.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteMap:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Map/{mapId}
-            Method: delete
+  # PostMapFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostMap.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostMap:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Map
+  #           Method: post
+  # PutMapFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutMap.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutMap:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Map
+  #           Method: put
+  # GetAllMapFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllMap.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllMap:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Map
+  #           Method: get
+  # GetMapFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetMap.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetMap:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Map/{mapId}
+  #           Method: get
+  # DeleteMapFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteMap.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteMap:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Map/{mapId}
+  #           Method: delete
 
-  PostEdgeFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostEdge.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostEdge:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Edge
-            Method: post
-  PutEdgeFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutEdge.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutEdge:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Edge
-            Method: put
-  GetAllEdgeFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllEdge.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllEdge:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Edge
-            Method: get
-  GetEdgeFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetEdge.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetEdge:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Edge/{edgeId}
-            Method: get
-  DeleteEdgeFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteEdge.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteEdge:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Edge/{edgeId}
-            Method: delete
+  # PostEdgeFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostEdge.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostEdge:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Edge
+  #           Method: post
+  # PutEdgeFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutEdge.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutEdge:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Edge
+  #           Method: put
+  # GetAllEdgeFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllEdge.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllEdge:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Edge
+  #           Method: get
+  # GetEdgeFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetEdge.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetEdge:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Edge/{edgeId}
+  #           Method: get
+  # DeleteEdgeFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteEdge.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteEdge:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Edge/{edgeId}
+  #           Method: delete
 
-  PostIOTDeviceFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostIOTDevice.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostIOTDevice:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /IOTDevice
-            Method: post
-  PutIOTDeviceFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutIOTDevice.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutIOTDevice:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /IOTDevice
-            Method: put
-  GetAllIOTDeviceFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllIOTDevice.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllIOTDevice:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /IOTDevice
-            Method: get
-  GetIOTDeviceFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetIOTDevice.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetIOTDevice:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /IOTDevice/{iotId}
-            Method: get
-  DeleteIOTDeviceFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteIOTDevice.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteIOTDevice:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /IOTDevice/{iotId}
-            Method: delete
+  # PostIOTDeviceFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostIOTDevice.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostIOTDevice:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /IOTDevice
+  #           Method: post
+  # PutIOTDeviceFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutIOTDevice.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutIOTDevice:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /IOTDevice
+  #           Method: put
+  # GetAllIOTDeviceFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllIOTDevice.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllIOTDevice:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /IOTDevice
+  #           Method: get
+  # GetIOTDeviceFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetIOTDevice.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetIOTDevice:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /IOTDevice/{iotId}
+  #           Method: get
+  # DeleteIOTDeviceFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteIOTDevice.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteIOTDevice:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /IOTDevice/{iotId}
+  #           Method: delete
 
-  PostLocationsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostLocations.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostLocations:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Locations
-            Method: post
-  PutLocationsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutLocations.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutLocations:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Locations
-            Method: put
-  GetAllLocationsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllLocations.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllLocations:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Locations
-            Method: get
-  GetLocationsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetLocations.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetLocations:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Locations/{locationsId}
-            Method: get
-  DeleteLocationsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteLocations.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteLocations:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Locations/{locationsId}
-            Method: delete
+  # PostLocationsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostLocations.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostLocations:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Locations
+  #           Method: post
+  # PutLocationsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutLocations.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutLocations:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Locations
+  #           Method: put
+  # GetAllLocationsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllLocations.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllLocations:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Locations
+  #           Method: get
+  # GetLocationsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetLocations.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetLocations:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Locations/{locationsId}
+  #           Method: get
+  # DeleteLocationsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteLocations.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteLocations:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Locations/{locationsId}
+  #           Method: delete
 
-  PostTriggerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostTrigger.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostTrigger:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Trigger
-            Method: post
-  PutTriggerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutTrigger.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutTrigger:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Trigger
-            Method: put
-  GetAllTriggerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllTrigger.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllTrigger:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Trigger
-            Method: get
-  GetTriggerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetTrigger.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetTrigger:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Trigger/{triggerId}
-            Method: get
-  DeleteTriggerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteTrigger.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteTrigger:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Trigger/{triggerId}
-            Method: delete
+  # PostTriggerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostTrigger.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostTrigger:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Trigger
+  #           Method: post
+  # PutTriggerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutTrigger.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutTrigger:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Trigger
+  #           Method: put
+  # GetAllTriggerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllTrigger.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllTrigger:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Trigger
+  #           Method: get
+  # GetTriggerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetTrigger.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetTrigger:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Trigger/{triggerId}
+  #           Method: get
+  # DeleteTriggerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteTrigger.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteTrigger:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Trigger/{triggerId}
+  #           Method: delete
 
-  PostDirectionsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostDirections.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostDirections:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Directions
-            Method: post
-  PutDirectionsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutDirections.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutDirections:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Directions
-            Method: put
-  GetAllDirectionsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllDirections.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllDirections:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Directions
-            Method: get
-  GetDirectionsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetDirections.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetDirections:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Directions/{directionsId}
-            Method: get
-  DeleteDirectionsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteDirections.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteDirections:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Directions/{directionsId}
-            Method: delete
+  # PostDirectionsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostDirections.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostDirections:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Directions
+  #           Method: post
+  # PutDirectionsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutDirections.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutDirections:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Directions
+  #           Method: put
+  # GetAllDirectionsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllDirections.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllDirections:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Directions
+  #           Method: get
+  # GetDirectionsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetDirections.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetDirections:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Directions/{directionsId}
+  #           Method: get
+  # DeleteDirectionsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteDirections.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteDirections:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Directions/{directionsId}
+  #           Method: delete
 
-  PostNotificationFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PostNotification.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PostNotification:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Notification
-            Method: post
-  PutNotificationFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: PutNotification.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        PutNotification:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Notification
-            Method: put
-  GetAllNotificationFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetAllNotification.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetAllNotification:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Notification
-            Method: get
-  GetNotificationFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: GetNotification.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        GetNotification:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Notification/{notificationId}
-            Method: get
-  DeleteNotificationFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: LambdaFunctions/
-      Handler: DeleteNotification.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - AmazonDynamoDBFullAccess
-      Events:
-        DeleteNotification:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /Notification/{notificationId}
-            Method: delete
+  # PostNotificationFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PostNotification.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PostNotification:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Notification
+  #           Method: post
+  # PutNotificationFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: PutNotification.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       PutNotification:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Notification
+  #           Method: put
+  # GetAllNotificationFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetAllNotification.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetAllNotification:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Notification
+  #           Method: get
+  # GetNotificationFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: GetNotification.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       GetNotification:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Notification/{notificationId}
+  #           Method: get
+  # DeleteNotificationFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: LambdaFunctions/
+  #     Handler: DeleteNotification.lambda_handler
+  #     Runtime: python3.7
+  #     Policies:
+  #       - AmazonDynamoDBFullAccess
+  #     Events:
+  #       DeleteNotification:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /Notification/{notificationId}
+  #           Method: delete
 
 
   # Other Functions
@@ -719,33 +719,33 @@ Resources:
 
 
   # DynamoDB Tables
-  AdministratorTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Administrator
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+  # AdministratorTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Administrator
+  #     AttributeDefinitions:
+  #       - AttributeName: id
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: id
+  #         KeyType: HASH
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
 
-  MapTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Map
-      AttributeDefinitions:
-        - AttributeName: mapId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: mapId
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+  # MapTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Map
+  #     AttributeDefinitions:
+  #       - AttributeName: mapId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: mapId
+  #         KeyType: HASH
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
 
   EdgeTable:
     Type: AWS::DynamoDB::Table
@@ -761,75 +761,75 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
-  IOTDeviceTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: IOTDevice
-      AttributeDefinitions:
-        - AttributeName: iotId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: iotId
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+  # IOTDeviceTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: IOTDevice
+  #     AttributeDefinitions:
+  #       - AttributeName: iotId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: iotId
+  #         KeyType: HASH
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
 
-  NotificationTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Notification
-      AttributeDefinitions:
-        - AttributeName: notificationId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: notificationId
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+  # NotificationTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Notification
+  #     AttributeDefinitions:
+  #       - AttributeName: notificationId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: notificationId
+  #         KeyType: HASH
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
 
-  LocationsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Locations
-      AttributeDefinitions:
-        - AttributeName: locationsId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: locationsId
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+  # LocationsTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Locations
+  #     AttributeDefinitions:
+  #       - AttributeName: locationsId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: locationsId
+  #         KeyType: HASH
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
 
-  TriggerTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Trigger
-      AttributeDefinitions:
-        - AttributeName: triggerId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: triggerId
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+  # TriggerTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Trigger
+  #     AttributeDefinitions:
+  #       - AttributeName: triggerId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: triggerId
+  #         KeyType: HASH
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
 
-  DirectionsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Directions
-      AttributeDefinitions:
-        - AttributeName: directionsId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: directionsId
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+  # DirectionsTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Directions
+  #     AttributeDefinitions:
+  #       - AttributeName: directionsId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: directionsId
+  #         KeyType: HASH
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 5
+  #       WriteCapacityUnits: 5
 
   SubscriptionTable:
     Type: AWS::DynamoDB::Table
