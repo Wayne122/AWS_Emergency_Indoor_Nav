@@ -729,9 +729,7 @@ Resources:
   #     KeySchema:
   #       - AttributeName: id
   #         KeyType: HASH
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 5
-  #       WriteCapacityUnits: 5
+  #     BillingMode: PAY_PER_REQUEST
 
   # MapTable:
   #   Type: AWS::DynamoDB::Table
@@ -743,9 +741,7 @@ Resources:
   #     KeySchema:
   #       - AttributeName: mapId
   #         KeyType: HASH
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 5
-  #       WriteCapacityUnits: 5
+  #     BillingMode: PAY_PER_REQUEST
 
   EdgeTable:
     Type: AWS::DynamoDB::Table
@@ -757,9 +753,7 @@ Resources:
       KeySchema:
         - AttributeName: edgeId
           KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+      BillingMode: PAY_PER_REQUEST
 
   # IOTDeviceTable:
   #   Type: AWS::DynamoDB::Table
@@ -771,9 +765,7 @@ Resources:
   #     KeySchema:
   #       - AttributeName: iotId
   #         KeyType: HASH
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 5
-  #       WriteCapacityUnits: 5
+  #     BillingMode: PAY_PER_REQUEST
 
   # NotificationTable:
   #   Type: AWS::DynamoDB::Table
@@ -785,9 +777,7 @@ Resources:
   #     KeySchema:
   #       - AttributeName: notificationId
   #         KeyType: HASH
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 5
-  #       WriteCapacityUnits: 5
+  #     BillingMode: PAY_PER_REQUEST
 
   # LocationsTable:
   #   Type: AWS::DynamoDB::Table
@@ -799,9 +789,7 @@ Resources:
   #     KeySchema:
   #       - AttributeName: locationsId
   #         KeyType: HASH
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 5
-  #       WriteCapacityUnits: 5
+  #     BillingMode: PAY_PER_REQUEST
 
   # TriggerTable:
   #   Type: AWS::DynamoDB::Table
@@ -813,9 +801,7 @@ Resources:
   #     KeySchema:
   #       - AttributeName: triggerId
   #         KeyType: HASH
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 5
-  #       WriteCapacityUnits: 5
+  #     BillingMode: PAY_PER_REQUEST
 
   # DirectionsTable:
   #   Type: AWS::DynamoDB::Table
@@ -827,9 +813,7 @@ Resources:
   #     KeySchema:
   #       - AttributeName: directionsId
   #         KeyType: HASH
-  #     ProvisionedThroughput:
-  #       ReadCapacityUnits: 5
-  #       WriteCapacityUnits: 5
+  #     BillingMode: PAY_PER_REQUEST
 
   SubscriptionTable:
     Type: AWS::DynamoDB::Table
@@ -841,6 +825,4 @@ Resources:
       KeySchema:
         - AttributeName: id
           KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+      BillingMode: PAY_PER_REQUEST
