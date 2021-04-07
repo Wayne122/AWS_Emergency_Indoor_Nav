@@ -1,5 +1,6 @@
 import json
 import boto3
+from boto3.dynamodb.conditions import Key
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
@@ -36,44 +37,42 @@ def lambda_handler(event, context):
 
             test_counter = 0
 
-            # Get all user
-            response = table.scan()
+            # Get all relevant users
+            response = table.query(
+                IndexName='byBuilding',
+                KeyConditionExpression=Key('buildingId').eq(id['id'])
+            )
 
             # if there's any user
             if response['Items']:
                 userList = response["Items"]
 
-                # dict{userId: locationId}
-                relUsers = {}
-
                 # list[locationId]
-                relLocations = []
+                locations = []
 
-                # Get all relevant users
+                # Get all locations
                 for userInfo in userList:
-                    if 'buildingId' in userInfo and userInfo['buildingId'] == id['id']:
-                        relUsers[userInfo['id']] = userInfo['location']
-                        relLocations.append(userInfo['location'])
+                    locations.append(userInfo['location'])
 
                 # Remove duplicates
-                relLocations = list(set(relLocations))
+                locations = list(set(locations))
 
                 # dict{locationId: Path}
-                relPaths = {}
+                paths = {}
 
                 # Get shortest path for all relevant locations
-                for l in relLocations:
+                for l in locations:
                     response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
-                    relPaths[l] = json.load(response['Payload'])
+                    paths[l] = json.load(response['Payload'])
                     # pathTable.put_item(
-                    #     Item={"directionsId": l, "path": relPaths[l]}
+                    #     Item={"directionsId": l, "path": paths[l]}
                     # )
 
                 # Send push notifications to all relevant users
-                for u, l in relUsers.items():
+                for userInfo in userList:
                     # Get endpoint
                     response = subtable.get_item(
-                        Key={'id': u}
+                        Key={'id': userInfo['id']}
                     )
 
                     # If endpoint exist
@@ -88,7 +87,7 @@ def lambda_handler(event, context):
                                             "body": "Follow the instructions to exit the building"
                                         }
                                     },
-                                    "shortestPath": json.dumps(relPaths[l])
+                                    "shortestPath": json.dumps(paths[userInfo['location']])
                                 })
                             },
                             "MessageStructure": "json"
@@ -130,44 +129,42 @@ def lambda_handler(event, context):
 
                         test_counter = 0
 
-                        # Get all user
-                        response = table.scan()
+                        # Get all relevant users
+                        response = table.query(
+                            IndexName='byBuilding',
+                            KeyConditionExpression=Key('buildingId').eq(buildingId)
+                        )
 
                         # if there's any user
                         if response['Items']:
                             userList = response["Items"]
 
-                            # dict{userId: locationId}
-                            relUsers = {}
-
                             # list[locationId]
-                            relLocations = []
+                            locations = []
 
-                            # Get all relevant users
+                            # Get all locations
                             for userInfo in userList:
-                                if 'buildingId' in userInfo and userInfo['buildingId'] == buildingId:
-                                    relUsers[userInfo['id']] = userInfo['location']
-                                    relLocations.append(userInfo['location'])
+                                locations.append(userInfo['location'])
 
                             # Remove duplicates
-                            relLocations = list(set(relLocations))
+                            locations = list(set(locations))
 
                             # dict{locationId: Path}
-                            relPaths = {}
+                            paths = {}
 
                             # Get shortest path for all relevant locations
-                            for l in relLocations:
+                            for l in locations:
                                 response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
-                                relPaths[l] = json.load(response['Payload'])
+                                paths[l] = json.load(response['Payload'])
                                 # pathTable.put_item(
-                                #     Item={"directionsId": l, "path": relPaths[l]}
+                                #     Item={"directionsId": l, "path": paths[l]}
                                 # )
 
                             # Send push notifications to all relevant users
-                            for u, l in relUsers.items():
+                            for userInfo in userList:
                                 # Get endpoint
                                 response = subtable.get_item(
-                                    Key={'id': u}
+                                    Key={'id': userInfo['id']}
                                 )
 
                                 # If endpoint exist
@@ -182,7 +179,7 @@ def lambda_handler(event, context):
                                                         "body": "Follow the instructions to exit the building"
                                                     }
                                                 },
-                                                "shortestPath": json.dumps(relPaths[l])
+                                                "shortestPath": json.dumps(paths[userInfo['location']])
                                             })
                                         },
                                         "MessageStructure": "json"
