@@ -6,6 +6,7 @@ dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 subtable = dynamodb.Table('Subscription')
 # pathTable = dynamodb.Table('Directions')
+# testTable = dynamodb.Table('Subscription')
 lc = boto3.client('lambda')
 snsc = boto3.client('sns')
 
@@ -121,13 +122,19 @@ def lambda_handler(event, context):
         elif "Records" in event:
             records = event['Records']
             for r in records:
+                # testTable.put_item(
+                #     Item={"id": "test", "detail": json.dumps(r)}
+                # )
+
+                # return
+
                 if r['eventName'] == "INSERT" or r['eventName'] == "MODIFY":
                     buildingInfo = r['dynamodb']['NewImage']
 
-                    if buildingInfo['emergency']['S'] == "True":     # emergency status
-                        buildingId = buildingInfo['buildingId']['S'] # Primary key for building table
+                    if buildingInfo['isInEmergency']['BOOL']:
+                        buildingId = buildingInfo['id']['S']
 
-                        test_counter = 0
+                        # test_counter = 0
 
                         # Get all relevant users
                         response = table.query(
@@ -175,7 +182,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert",
+                                                        "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
                                                         "body": "Follow the instructions to exit the building"
                                                     }
                                                 },
@@ -190,7 +197,7 @@ def lambda_handler(event, context):
                                             Message=json.dumps(msg['Message']),
                                             MessageStructure=msg['MessageStructure']
                                         )
-                                        test_counter += 1
+                                        # test_counter += 1
                                     except:
                                         pass
     except:
