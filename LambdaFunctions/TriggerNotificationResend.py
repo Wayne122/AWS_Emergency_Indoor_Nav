@@ -149,7 +149,7 @@ def lambda_handler(event, context):
 
                 # If building is found and in emergency
                 if "Item" in buildingInfo and buildingInfo["Item"]['isInEmergency']:
-                    buildingId = buildingInfo['id']
+                    buildingId = buildingInfo["Item"]['id']
 
                     # Get all relevant users
                     response = table.query(
@@ -195,7 +195,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert: " + buildingInfo['emergencyDescription'],
+                                                        "title": "Emergency Alert: " + buildingInfo["Item"]['emergencyDescription'],
                                                         "body": "New instructions updated: Follow the instructions to exit the building"
                                                     }
                                                 },
@@ -211,7 +211,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert: " + buildingInfo['emergencyDescription'],
+                                                        "title": "Emergency Alert: " + buildingInfo["Item"]['emergencyDescription'],
                                                         "body": "New instructions updated: No safe path found, click for more detail."
                                                     }
                                                 },
