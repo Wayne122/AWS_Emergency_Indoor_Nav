@@ -670,6 +670,24 @@ Resources:
             Method: get
       Timeout: 900
 
+  TriggerNotificationResendFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: LambdaFunctions/
+      Handler: TriggerNotificationResend.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambda_FullAccess
+        - AmazonSNSFullAccess
+      Events:
+        TriggerNotificationResend:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /TriggerNotificationResend/{id}
+            Method: get
+      Timeout: 900
+
   SendNotificationFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -743,17 +761,17 @@ Resources:
   #         KeyType: HASH
   #     BillingMode: PAY_PER_REQUEST
 
-  EdgeTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: Edge
-      AttributeDefinitions:
-        - AttributeName: edgeId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: edgeId
-          KeyType: HASH
-      BillingMode: PAY_PER_REQUEST
+  # EdgeTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Edge
+  #     AttributeDefinitions:
+  #       - AttributeName: edgeId
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: edgeId
+  #         KeyType: HASH
+  #     BillingMode: PAY_PER_REQUEST
 
   # IOTDeviceTable:
   #   Type: AWS::DynamoDB::Table
