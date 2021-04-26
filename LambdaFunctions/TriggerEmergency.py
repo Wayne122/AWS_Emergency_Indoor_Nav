@@ -6,7 +6,7 @@ dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 subtable = dynamodb.Table('Subscription')
 # pathTable = dynamodb.Table('Directions')
-# testTable = dynamodb.Table('Subscription')
+# testTable = dynamodb.Table('Edge')
 lc = boto3.client('lambda')
 snsc = boto3.client('sns')
 
@@ -78,21 +78,38 @@ def lambda_handler(event, context):
 
                     # If endpoint exist
                     if "Item" in response:
-                        msg = {
-                            "Message": {
-                                "default": "default message",
-                                "APNS_SANDBOX": json.dumps({
-                                    "aps": {
-                                        "alert": {
-                                            "title": "Emergency Alert",
-                                            "body": "Follow the instructions to exit the building"
-                                        }
-                                    },
-                                    "shortestPath": json.dumps(paths[userInfo['location']])
-                                })
-                            },
-                            "MessageStructure": "json"
-                        }
+                        if isinstance(paths[userInfo['location']]["shortestPath"], list):
+                            msg = {
+                                "Message": {
+                                    "default": "default message",
+                                    "APNS_SANDBOX": json.dumps({
+                                        "aps": {
+                                            "alert": {
+                                                "title": "Emergency Alert: ",
+                                                "body": "Follow the instructions to exit the building"
+                                            }
+                                        },
+                                        "shortestPath": json.dumps(paths[userInfo['location']])
+                                    })
+                                },
+                                "MessageStructure": "json"
+                            }
+                        else:
+                            msg = {
+                                "Message": {
+                                    "default": "default message",
+                                    "APNS_SANDBOX": json.dumps({
+                                        "aps": {
+                                            "alert": {
+                                                "title": "Emergency Alert: ",
+                                                "body": "No safe path found, click for more detail."
+                                            }
+                                        },
+                                        "shortestPath": json.dumps(paths[userInfo['location']])
+                                    })
+                                },
+                                "MessageStructure": "json"
+                            }
                         try:
                             snsc.publish(
                                 TargetArn=response['Item']['EndpointArn'],
@@ -123,7 +140,7 @@ def lambda_handler(event, context):
             records = event['Records']
             for r in records:
                 # testTable.put_item(
-                #     Item={"id": "test", "detail": json.dumps(r)}
+                #     Item={"edgeId": "test", "detail": json.dumps(r)}
                 # )
 
                 # return
@@ -163,9 +180,10 @@ def lambda_handler(event, context):
                             for l in locations:
                                 response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
                                 paths[l] = json.load(response['Payload'])
-                                # pathTable.put_item(
-                                #     Item={"directionsId": l, "path": paths[l]}
+                                # testTable.put_item(
+                                #     Item={"edgeId": "test", "detail": json.dumps(type(paths[l]))}
                                 # )
+
 
                             # Send push notifications to all relevant users
                             for userInfo in userList:
@@ -176,21 +194,39 @@ def lambda_handler(event, context):
 
                                 # If endpoint exist
                                 if "Item" in response:
-                                    msg = {
-                                        "Message": {
-                                            "default": "default message",
-                                            "APNS_SANDBOX": json.dumps({
-                                                "aps": {
-                                                    "alert": {
-                                                        "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
-                                                        "body": "Follow the instructions to exit the building"
-                                                    }
-                                                },
-                                                "shortestPath": json.dumps(paths[userInfo['location']])
-                                            })
-                                        },
-                                        "MessageStructure": "json"
-                                    }
+                                    if isinstance(paths[userInfo['location']]["shortestPath"], list):
+                                        msg = {
+                                            "Message": {
+                                                "default": "default message",
+                                                "APNS_SANDBOX": json.dumps({
+                                                    "aps": {
+                                                        "alert": {
+                                                            "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
+                                                            "body": "Follow the instructions to exit the building"
+                                                        }
+                                                    },
+                                                    "shortestPath": json.dumps(paths[userInfo['location']])
+                                                })
+                                            },
+                                            "MessageStructure": "json"
+                                        }
+                                    else:
+                                        msg = {
+                                            "Message": {
+                                                "default": "default message",
+                                                "APNS_SANDBOX": json.dumps({
+                                                    "aps": {
+                                                        "alert": {
+                                                            "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
+                                                            "body": "No safe path found, click for more detail."
+                                                        }
+                                                    },
+                                                    "shortestPath": json.dumps(paths[userInfo['location']])
+                                                })
+                                            },
+                                            "MessageStructure": "json"
+                                        }
+
                                     try:
                                         snsc.publish(
                                             TargetArn=response['Item']['EndpointArn'],
