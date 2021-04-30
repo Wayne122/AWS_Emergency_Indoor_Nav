@@ -74,7 +74,7 @@ def lambda_handler(event, context):
 
                     # If endpoint exist
                     if "Item" in response:
-                        if isinstance(paths[userInfo['location']]["shortestPath"], list):
+                        if isinstance(paths[userInfo['location']]['shortestPath'], list):
                             msg = {
                                 "Message": {
                                     "default": "default message",
@@ -185,7 +185,7 @@ def lambda_handler(event, context):
 
                             # If endpoint exist
                             if "Item" in response:
-                                if isinstance(paths[userInfo['location']]["shortestPath"], list):
+                                if isinstance(paths[userInfo['location']]['shortestPath'], list):
                                     msg = {
                                         "Message": {
                                             "default": "default message",

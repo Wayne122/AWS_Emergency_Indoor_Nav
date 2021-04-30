@@ -65,9 +65,6 @@ def lambda_handler(event, context):
                 for l in locations:
                     response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
                     paths[l] = json.load(response['Payload'])
-                    # pathTable.put_item(
-                    #     Item={"directionsId": l, "path": paths[l]}
-                    # )
 
                 # Send push notifications to all relevant users
                 for userInfo in userList:
@@ -78,7 +75,7 @@ def lambda_handler(event, context):
 
                     # If endpoint exist
                     if "Item" in response:
-                        if isinstance(paths[userInfo['location']]["shortestPath"], list):
+                        if isinstance(paths[userInfo['location']]['shortestPath'], list):
                             msg = {
                                 "Message": {
                                     "default": "default message",
@@ -139,11 +136,6 @@ def lambda_handler(event, context):
         elif "Records" in event:
             records = event['Records']
             for r in records:
-                # testTable.put_item(
-                #     Item={"edgeId": "test", "detail": json.dumps(r)}
-                # )
-
-                # return
 
                 if r['eventName'] == "INSERT" or r['eventName'] == "MODIFY":
                     buildingInfo = r['dynamodb']['NewImage']
@@ -180,9 +172,6 @@ def lambda_handler(event, context):
                             for l in locations:
                                 response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
                                 paths[l] = json.load(response['Payload'])
-                                # testTable.put_item(
-                                #     Item={"edgeId": "test", "detail": json.dumps(type(paths[l]))}
-                                # )
 
 
                             # Send push notifications to all relevant users
@@ -194,7 +183,7 @@ def lambda_handler(event, context):
 
                                 # If endpoint exist
                                 if "Item" in response:
-                                    if isinstance(paths[userInfo['location']]["shortestPath"], list):
+                                    if isinstance(paths[userInfo['location']]['shortestPath'], list):
                                         msg = {
                                             "Message": {
                                                 "default": "default message",
