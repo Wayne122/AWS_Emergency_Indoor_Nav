@@ -275,6 +275,7 @@ def lambda_handler(event, context):
                             tArn = ""
                             for t in tlist:
                                 r = client.get_topic_attributes(TopicArn=t)
+                                # If the topic has not reached subscription limit
                                 if int(r['Attributes']['SubscriptionsConfirmed']) < 10000000:
                                     tArn = t
                                     break

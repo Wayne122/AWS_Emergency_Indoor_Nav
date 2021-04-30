@@ -64,9 +64,6 @@ def lambda_handler(event, context):
                 for l in locations:
                     response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
                     paths[l] = json.load(response['Payload'])
-                    # pathTable.put_item(
-                    #     Item={"directionsId": l, "path": paths[l]}
-                    # )
 
                 # Send push notifications to all relevant users
                 for userInfo in userList:
