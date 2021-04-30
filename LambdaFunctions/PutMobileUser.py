@@ -1,6 +1,6 @@
 import json
 import boto3
-# import requests
+from decimal import Decimal
 
 
 def lambda_handler(event, context):
@@ -32,7 +32,7 @@ def lambda_handler(event, context):
 
         body = event['body']
 
-        entity = json.loads(body)
+        entity = json.loads(body, parse_float=Decimal)
 
         id = entity['id']
 
