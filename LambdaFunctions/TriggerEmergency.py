@@ -58,13 +58,9 @@ def lambda_handler(event, context):
                 # Remove duplicates
                 locations = list(set(locations))
 
-                # dict{locationId: Path}
-                paths = {}
-
                 # Get shortest path for all relevant locations
-                for l in locations:
-                    response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
-                    paths[l] = json.load(response['Payload'])
+                response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':locations}))
+                paths = json.load(response['Payload'])
 
                 # Send push notifications to all relevant users
                 for userInfo in userList:
@@ -75,7 +71,7 @@ def lambda_handler(event, context):
 
                     # If endpoint exist
                     if "Item" in response:
-                        if isinstance(paths[userInfo['location']]['shortestPath'], list):
+                        if paths[userInfo['location']]['actionCode'] == 0:
                             msg = {
                                 "Message": {
                                     "default": "default message",
@@ -86,12 +82,13 @@ def lambda_handler(event, context):
                                                 "body": "Follow the instructions to exit the building"
                                             }
                                         },
-                                        "shortestPath": json.dumps(paths[userInfo['location']])
+                                        "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
+                                        "actionCode": json.dumps(paths[userInfo['location']]['actionCode'])
                                     })
                                 },
                                 "MessageStructure": "json"
                             }
-                        else:
+                        elif paths[userInfo['location']]['actionCode'] == 1:
                             msg = {
                                 "Message": {
                                     "default": "default message",
@@ -99,10 +96,28 @@ def lambda_handler(event, context):
                                         "aps": {
                                             "alert": {
                                                 "title": "Emergency Alert: ",
-                                                "body": "No safe path found, click for more detail."
+                                                "body": "No safe exit found, stand by for rescue"
                                             }
                                         },
-                                        "shortestPath": json.dumps(paths[userInfo['location']])
+                                        "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
+                                        "actionCode": json.dumps(paths[userInfo['location']]['actionCode'])
+                                    })
+                                },
+                                "MessageStructure": "json"
+                            }
+                        elif paths[userInfo['location']]['actionCode'] == 2:
+                            msg = {
+                                "Message": {
+                                    "default": "default message",
+                                    "APNS_SANDBOX": json.dumps({
+                                        "aps": {
+                                            "alert": {
+                                                "title": "Emergency Alert: ",
+                                                "body": "No safe exit found, move close to windows and stand by for rescue"
+                                            }
+                                        },
+                                        "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
+                                        "actionCode": json.dumps(paths[userInfo['location']]['actionCode'])
                                     })
                                 },
                                 "MessageStructure": "json"
@@ -165,14 +180,9 @@ def lambda_handler(event, context):
                             # Remove duplicates
                             locations = list(set(locations))
 
-                            # dict{locationId: Path}
-                            paths = {}
-
                             # Get shortest path for all relevant locations
-                            for l in locations:
-                                response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':l}))
-                                paths[l] = json.load(response['Payload'])
-
+                            response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node_lst':locations}))
+                            paths = json.load(response['Payload'])
 
                             # Send push notifications to all relevant users
                             for userInfo in userList:
@@ -183,7 +193,7 @@ def lambda_handler(event, context):
 
                                 # If endpoint exist
                                 if "Item" in response:
-                                    if isinstance(paths[userInfo['location']]['shortestPath'], list):
+                                    if paths[userInfo['location']]['actionCode'] == 0:
                                         msg = {
                                             "Message": {
                                                 "default": "default message",
@@ -194,12 +204,13 @@ def lambda_handler(event, context):
                                                             "body": "Follow the instructions to exit the building"
                                                         }
                                                     },
-                                                    "shortestPath": json.dumps(paths[userInfo['location']])
+                                                    "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
+                                                    "actionCode": json.dumps(paths[userInfo['location']]['actionCode'])
                                                 })
                                             },
                                             "MessageStructure": "json"
                                         }
-                                    else:
+                                    elif paths[userInfo['location']]['actionCode'] == 1:
                                         msg = {
                                             "Message": {
                                                 "default": "default message",
@@ -207,15 +218,32 @@ def lambda_handler(event, context):
                                                     "aps": {
                                                         "alert": {
                                                             "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
-                                                            "body": "No safe path found, click for more detail."
+                                                            "body": "No safe exit found, stand by for rescue"
                                                         }
                                                     },
-                                                    "shortestPath": json.dumps(paths[userInfo['location']])
+                                                    "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
+                                                    "actionCode": json.dumps(paths[userInfo['location']]['actionCode'])
                                                 })
                                             },
                                             "MessageStructure": "json"
                                         }
-
+                                    elif paths[userInfo['location']]['actionCode'] == 2:
+                                        msg = {
+                                            "Message": {
+                                                "default": "default message",
+                                                "APNS_SANDBOX": json.dumps({
+                                                    "aps": {
+                                                        "alert": {
+                                                            "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
+                                                            "body": "No safe exit found, move close to windows and stand by for rescue"
+                                                        }
+                                                    },
+                                                    "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
+                                                    "actionCode": json.dumps(paths[userInfo['location']]['actionCode'])
+                                                })
+                                            },
+                                            "MessageStructure": "json"
+                                        }
                                     try:
                                         snsc.publish(
                                             TargetArn=response['Item']['EndpointArn'],
