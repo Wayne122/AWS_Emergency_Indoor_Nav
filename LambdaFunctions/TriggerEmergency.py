@@ -96,7 +96,7 @@ def lambda_handler(event, context):
                                         "aps": {
                                             "alert": {
                                                 "title": "Emergency Alert: ",
-                                                "body": "No safe exit found, stand by for rescue"
+                                                "body": "No safe path found, stand by for rescue"
                                             }
                                         },
                                         "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
@@ -113,7 +113,7 @@ def lambda_handler(event, context):
                                         "aps": {
                                             "alert": {
                                                 "title": "Emergency Alert: ",
-                                                "body": "No safe exit found, move close to windows and stand by for rescue"
+                                                "body": "No safe path found, move close to windows and stand by for rescue"
                                             }
                                         },
                                         "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
@@ -218,7 +218,7 @@ def lambda_handler(event, context):
                                                     "aps": {
                                                         "alert": {
                                                             "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
-                                                            "body": "No safe exit found, stand by for rescue"
+                                                            "body": "No safe path found, stand by for rescue"
                                                         }
                                                     },
                                                     "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
@@ -235,7 +235,7 @@ def lambda_handler(event, context):
                                                     "aps": {
                                                         "alert": {
                                                             "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
-                                                            "body": "No safe exit found, move close to windows and stand by for rescue"
+                                                            "body": "No safe path found, move close to windows and stand by for rescue"
                                                         }
                                                     },
                                                     "shortestPath": json.dumps(paths[userInfo['location']]['shortestPath']),
