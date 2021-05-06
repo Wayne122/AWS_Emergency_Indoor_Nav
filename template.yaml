@@ -662,6 +662,7 @@ Resources:
         - AmazonDynamoDBFullAccess
         - AWSLambda_FullAccess
         - AmazonSNSFullAccess
+        - AmazonS3FullAccess
       Events:
         TriggerEmergency:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -680,6 +681,7 @@ Resources:
         - AmazonDynamoDBFullAccess
         - AWSLambda_FullAccess
         - AmazonSNSFullAccess
+        - AmazonS3FullAccess
       Events:
         TriggerNotificationResend:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -696,6 +698,7 @@ Resources:
       Runtime: python3.7
       Policies:
         - AmazonSNSFullAccess
+        - AmazonS3FullAccess
       Events:
         SendNotification:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -729,6 +732,7 @@ Resources:
       Policies:
         - AmazonDynamoDBFullAccess
         - AmazonSNSFullAccess
+        - AmazonS3FullAccess
       Events:
         DeactivateNotification:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

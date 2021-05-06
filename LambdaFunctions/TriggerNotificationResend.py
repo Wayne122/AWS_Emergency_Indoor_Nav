@@ -1,5 +1,7 @@
 import json
 import boto3
+import datetime
+import uuid
 from boto3.dynamodb.conditions import Key
 
 dynamodb = boto3.resource('dynamodb')
@@ -134,7 +136,6 @@ def lambda_handler(event, context):
                 return {
                     "statusCode": 200,
                     "body": json.dumps({
-                        #"detail": json.load(response['Payload'])['body'],
                         "msg count": test_counter,
                         "response": "Sent!"
                     }),
@@ -143,7 +144,6 @@ def lambda_handler(event, context):
                 return {
                     "statusCode": 404,
                     "body": json.dumps({
-                        #"response": response,
                         "response": "No user is found!"
                     })
                 }
@@ -256,10 +256,13 @@ def lambda_handler(event, context):
                                 except:
                                     pass
     except:
+        with open('/tmp/error.log', 'w') as el:
+            json.dump(event, el, indent=2)
+        filename = "error_logs/" + datetime.datetime.today().strftime("%Y-%m-%dT%H%M%S-") + "TriggerNotificationResend-" + str(uuid.uuid4()) + ".log"
+        boto3.client('s3').upload_file('/tmp/error.log', 'smartnavigationcloudformationdeployment', filename)
         return {
             "statusCode": 400,
             "body": json.dumps({
-                "response": "Error(s) occurred.",
-                #"detail": event
+                "response": "Error(s) occurred."
             }),
         }
