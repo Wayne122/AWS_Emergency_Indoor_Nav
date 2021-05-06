@@ -79,7 +79,7 @@ def lambda_handler(event, context):
                                     "APNS_SANDBOX": json.dumps({
                                         "aps": {
                                             "alert": {
-                                                "title": "Emergency Alert: ",
+                                                "title": "Emergency Alert Update: ",
                                                 "body": "Follow the instructions to exit the building"
                                             }
                                         },
@@ -96,7 +96,7 @@ def lambda_handler(event, context):
                                     "APNS_SANDBOX": json.dumps({
                                         "aps": {
                                             "alert": {
-                                                "title": "Emergency Alert: ",
+                                                "title": "Emergency Alert Update: ",
                                                 "body": "No safe path found, stand by for rescue"
                                             }
                                         },
@@ -113,7 +113,7 @@ def lambda_handler(event, context):
                                     "APNS_SANDBOX": json.dumps({
                                         "aps": {
                                             "alert": {
-                                                "title": "Emergency Alert: ",
+                                                "title": "Emergency Alert Update: ",
                                                 "body": "No safe path found, move close to windows and stand by for rescue"
                                             }
                                         },
@@ -203,7 +203,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
+                                                        "title": "Emergency Alert Update: " + buildingInfo['emergencyDescription']['S'],
                                                         "body": "Follow the instructions to exit the building"
                                                     }
                                                 },
@@ -220,7 +220,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
+                                                        "title": "Emergency Alert Update: " + buildingInfo['emergencyDescription']['S'],
                                                         "body": "No safe path found, stand by for rescue"
                                                     }
                                                 },
@@ -237,7 +237,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert: " + buildingInfo['emergencyDescription']['S'],
+                                                        "title": "Emergency Alert Update: " + buildingInfo['emergencyDescription']['S'],
                                                         "body": "No safe path found, move close to windows and stand by for rescue"
                                                     }
                                                 },
