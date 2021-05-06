@@ -1,9 +1,14 @@
 import json
 import boto3
+import datetime
+import uuid
 
 dynamodb = boto3.resource('dynamodb')
 client = boto3.client('sns')
 table = dynamodb.Table('Subscription')
+
+# for logging
+s3 = boto3.client('s3')
 
 
 def lambda_handler(event, context):
@@ -28,6 +33,7 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
+    el = open('/tmp/error.log', 'w')
     try:
         if "pathParameters" in event:
             id = event['pathParameters']
@@ -83,7 +89,13 @@ def lambda_handler(event, context):
                         table.delete_item(
                             Key={'id': r['dynamodb']['OldImage']['id']['S']}
                         )
+        el.close()
     except:
+        el.write("ERROR OCCURED!\n\n")
+        json.dump(event, el, indent=2)
+        el.close()
+        filename = "error_logs/" + datetime.datetime.today().strftime("%Y-%m-%dT%H%M%S-") + "DeactivateNotification-" + str(uuid.uuid4()) + ".log"
+        s3.upload_file('/tmp/error.log', 'smartnavigationcloudformationdeployment', filename)
         return {
             "statusCode": 400,
             "body": json.dumps({
