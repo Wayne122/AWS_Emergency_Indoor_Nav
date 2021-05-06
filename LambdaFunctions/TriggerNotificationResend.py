@@ -203,7 +203,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert Update: " + buildingInfo['emergencyDescription']['S'],
+                                                        "title": "Emergency Alert Update: " + buildingInfo["Item"]['emergencyDescription'],
                                                         "body": "Follow the instructions to exit the building"
                                                     }
                                                 },
@@ -220,7 +220,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert Update: " + buildingInfo['emergencyDescription']['S'],
+                                                        "title": "Emergency Alert Update: " + buildingInfo["Item"]['emergencyDescription'],
                                                         "body": "No safe path found, stand by for rescue"
                                                     }
                                                 },
@@ -237,7 +237,7 @@ def lambda_handler(event, context):
                                             "APNS_SANDBOX": json.dumps({
                                                 "aps": {
                                                     "alert": {
-                                                        "title": "Emergency Alert Update: " + buildingInfo['emergencyDescription']['S'],
+                                                        "title": "Emergency Alert Update: " + buildingInfo["Item"]['emergencyDescription'],
                                                         "body": "No safe path found, move close to windows and stand by for rescue"
                                                     }
                                                 },
