@@ -339,6 +339,7 @@ def lambda_handler(event, context):
                 else:
                     el.write("    Ignoring deletion...\n")
             el.write("Ending function...\n")
+        el.close()
     except:
         el.write("ERROR OCCURED!\n\n")
         json.dump(event, el, indent=2)
