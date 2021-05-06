@@ -59,7 +59,7 @@ def lambda_handler(event, context):
                 locations = list(set(locations))
 
                 # Get shortest path for all relevant locations
-                response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node':locations}))
+                response = lc.invoke(FunctionName = 'GetShortestPathFromMap', Payload=json.dumps({'start_node_lst':locations}))
                 paths = json.load(response['Payload'])
 
                 # Send push notifications to all relevant users
