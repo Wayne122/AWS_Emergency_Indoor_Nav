@@ -1,10 +1,15 @@
 import json
 import boto3
+import datetime
+import uuid
 
 dynamodb = boto3.resource('dynamodb')
 client = boto3.client('sns')
 table = dynamodb.Table('MobileUser-zspi2ti25naz3ksfjxkregagtm-dev')
 subtable = dynamodb.Table('Subscription')
+
+# for logging
+s3 = boto3.client('s3')
 
 
 def lambda_handler(event, context):
@@ -29,8 +34,10 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
+    el = open('/tmp/error.log', 'w')
     try:
         if "pathParameters" in event:
+            el.write("Triggered by API...\n")
             id = event['pathParameters']
 
             response = table.get_item(
@@ -150,16 +157,21 @@ def lambda_handler(event, context):
                     })
                 }
         elif "Records" in event:
+            el.write("Triggered by table trigger...\n")
             records = event['Records']
             for r in records:
+                el.write("  Looping records...\n")
                 if r['eventName'] == "INSERT":
+                    el.write("    Inserting new record...\n")
                     userInfo = r['dynamodb']['NewImage']
 
                     # Delete endpoint if already exist
+                    el.write("    Looking for old endpoints...\n")
                     response = subtable.get_item(
                         Key={'id': userInfo['id']['S']}
                     )
                     if "Item" in response:
+                        el.write("      Endpoint exists, deleting...\n")
                         unsubInfo = response["Item"]
 
                         client.unsubscribe(
@@ -176,7 +188,9 @@ def lambda_handler(event, context):
 
                     # Creation process
                     # If token exists
+                    el.write("    Looking for token...\n")
                     if 'deviceTokenId' in userInfo:
+                        el.write("      Token exists, creating endpoint...\n")
                         subInfo = {'id': userInfo['id']['S']}
 
                         # Create endpoint
@@ -188,9 +202,11 @@ def lambda_handler(event, context):
 
                         # If endpoint creation succeeded
                         if "EndpointArn" in response:
+                            el.write("        Endpoint created successfully...\n")
                             subInfo['EndpointArn'] = response['EndpointArn']
 
                             # Get all topics
+                            el.write("        Getting topics...\n")
                             topics = client.list_topics()
                             tlist = []
                             for topic in topics['Topics']:
@@ -198,6 +214,7 @@ def lambda_handler(event, context):
                                     tlist.append(topic['TopicArn'])
                             
                             # Find an usable topic
+                            el.write("        Looking for usable topic...\n")
                             tArn = ""
                             for t in tlist:
                                 r = client.get_topic_attributes(TopicArn=t)
@@ -207,12 +224,14 @@ def lambda_handler(event, context):
 
                             # Create topic if no topic is found
                             if not tArn:
+                                el.write("          Usable topic not found, creating...\n")
                                 newTopic = client.create_topic(
                                     Name='SmartNavigationPushNotification_' + str(len(tlist)+1)
                                 )
                                 tArn = newTopic['TopicArn']
 
                             # Subscribe to a topic
+                            el.write("        Subscribing to the topic...\n")
                             response = client.subscribe(
                                 TopicArn=tArn,
                                 Protocol='application',
@@ -222,22 +241,29 @@ def lambda_handler(event, context):
 
                             # If topic subscription succeeded
                             if "SubscriptionArn" in response:
+                                el.write("          Subscription succesful...\n")
                                 subInfo['SubscriptionArn'] = response['SubscriptionArn']
 
                                 subtable.put_item(
                                     Item=subInfo
                                 )
+                            
+                    el.write("    Done inserting new record...\n")
                 elif r['eventName'] == "MODIFY":
+                    el.write("    Modifying old record...\n")
                     newUserInfo = r['dynamodb']['NewImage']
                     oldUserInfo = r['dynamodb']['OldImage']
 
                     # Check if token is updated
+                    el.write("    Checking if token got changed...\n")
                     if 'deviceTokenId' not in oldUserInfo and 'deviceTokenId' in newUserInfo or newUserInfo['deviceTokenId']['S'] != oldUserInfo['deviceTokenId']['S']:
                         # Delete old subscription
+                        el.write("      Token changed, looking for old endpoints...\n")
                         response = subtable.get_item(
                             Key={'id': newUserInfo['id']['S']}
                         )
                         if "Item" in response:
+                            el.write("        Endpoint exists, deleting...\n")
                             unsubInfo = response["Item"]
 
                             client.unsubscribe(
@@ -253,6 +279,7 @@ def lambda_handler(event, context):
                             )
                         
                         # Re-subscribe
+                        el.write("      Creating new endpoint...\n")
                         subInfo = {'id': newUserInfo['id']['S']}
 
                         response = client.create_platform_endpoint(
@@ -262,9 +289,11 @@ def lambda_handler(event, context):
                         )
 
                         if "EndpointArn" in response:
+                            el.write("        Endpoint created successfully...\n")
                             subInfo['EndpointArn'] = response['EndpointArn']
 
                             # Get all topics
+                            el.write("        Getting topics...\n")
                             topics = client.list_topics()
                             tlist = []
                             for topic in topics['Topics']:
@@ -272,6 +301,7 @@ def lambda_handler(event, context):
                                     tlist.append(topic['TopicArn'])
                             
                             # Find an usable topic
+                            el.write("        Looking for usable topic...\n")
                             tArn = ""
                             for t in tlist:
                                 r = client.get_topic_attributes(TopicArn=t)
@@ -282,11 +312,14 @@ def lambda_handler(event, context):
 
                             # Create topic if no topic is found
                             if not tArn:
+                                el.write("          Usable topic not found, creating...\n")
                                 newTopic = client.create_topic(
                                     Name='SmartNavigationPushNotification_' + str(len(tlist)+1)
                                 )
                                 tArn = newTopic['TopicArn']
 
+                            # Subscribe to a topic
+                            el.write("        Subscribing to the topic...\n")
                             response = client.subscribe(
                                 TopicArn=tArn,
                                 Protocol='application',
@@ -294,13 +327,24 @@ def lambda_handler(event, context):
                                 ReturnSubscriptionArn=True
                             )
 
+                            # If topic subscription succeeded
                             if "SubscriptionArn" in response:
+                                el.write("          Subscription succesful...\n")
                                 subInfo['SubscriptionArn'] = response['SubscriptionArn']
 
                                 subtable.put_item(
                                     Item=subInfo
                                 )
+                    el.write("    Done modifying old record...\n")
+                else:
+                    el.write("    Ignoring deletion...\n")
+            el.write("Ending function...\n")
     except:
+        el.write("ERROR OCCURED!\n\n")
+        json.dump(event, el, indent=2)
+        el.close()
+        filename = "error_logs/" + datetime.datetime.today().strftime("%Y-%m-%dT%H%M%S-") + "ActivateNotification-" + str(uuid.uuid4()) + ".log"
+        s3.upload_file('/tmp/error.log', 'smartnavigationcloudformationdeployment', filename)
         return {
             "statusCode": 400,
             "body": json.dumps({
