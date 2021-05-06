@@ -308,7 +308,7 @@ def lambda_handler(event, context):
     except:
         with open('/tmp/error.log', 'w') as el:
             json.dump(event, el, indent=2)
-        filename = "error_logs/" + datetime.datetime.today().strftime("%Y-%m-%dT%H%M%S-") + "TriggerNotificationResend-" + str(uuid.uuid4()) + ".log"
+        filename = "error_logs/" + datetime.datetime.today().strftime("%Y-%m-%dT%H%M%S-") + "ActivateNotification-" + str(uuid.uuid4()) + ".log"
         boto3.client('s3').upload_file('/tmp/error.log', 'smartnavigationcloudformationdeployment', filename)
         return {
             "statusCode": 400,

@@ -85,8 +85,6 @@ def lambda_handler(event, context):
                         table.delete_item(
                             Key={'id': r['dynamodb']['OldImage']['id']['S']}
                         )
-            a = {}
-            print(a['a'])
     except:
         with open('/tmp/error.log', 'w') as el:
             json.dump(event, el, indent=2)
