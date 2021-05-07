@@ -69,7 +69,7 @@ def lambda_handler(event, context):
                     # Create endpoint
                     response = client.create_platform_endpoint(
                         PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
-                        Token=userInfo['deviceTokenId'],
+                        Token=userInfo['deviceTokenId'].replace('-', ''), # Remove dash from fake token
                         CustomUserData=userInfo['id']
                     )
 
@@ -184,7 +184,7 @@ def lambda_handler(event, context):
                         # Create endpoint
                         response = client.create_platform_endpoint(
                             PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
-                            Token=userInfo['deviceTokenId']['S'],
+                            Token=userInfo['deviceTokenId']['S'].replace('-', ''), # Remove dash from fake token
                             CustomUserData=userInfo['id']['S']
                         )
 
@@ -260,7 +260,7 @@ def lambda_handler(event, context):
 
                         response = client.create_platform_endpoint(
                             PlatformApplicationArn='arn:aws:sns:us-east-1:756906170378:app/APNS_SANDBOX/iOS_Emergency_Indoor_Nav',
-                            Token=newUserInfo['deviceTokenId']['S'],
+                            Token=newUserInfo['deviceTokenId']['S'].replace('-', ''), # Remove dash from fake token
                             CustomUserData=newUserInfo['id']['S']
                         )
 
